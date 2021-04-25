@@ -65,20 +65,20 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false); //krataw to view prin to epistrepsw
 
-        /*
+
         //--------------- Button on Click Function ---------------
         sportBtn = view.findViewById(R.id.sportsBtn); //mesa apo to view vriskw to button
         sportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SportsFragment sportsFragment = new SportsFragment();
+                TestDatabase sportsFragment = new TestDatabase();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                 transaction.replace(R.id.fragment_container, sportsFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
-        });*/
+        });
         return view;
     }
 }
