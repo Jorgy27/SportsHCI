@@ -65,6 +65,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false); //krataw to view prin to epistrepsw
 
+        /*
         //--------------- Button on Click Function ---------------
         sportBtn = view.findViewById(R.id.sportsBtn); //mesa apo to view vriskw to button
         sportBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +78,7 @@ public class HomeFragment extends Fragment {
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
-        });
+        });*/
         return view;
     }
 }
