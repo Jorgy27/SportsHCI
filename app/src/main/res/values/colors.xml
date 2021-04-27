@@ -14,4 +14,6 @@
     <color name="black_overlay">#66000000</color>
     <color name="nav_black">#A1000000</color>
     <color name="orange">#FF5722</color>
+    <color name="dracula_orchid">#2d3436</color>
+    <color name="soothing_breeze">#b2bec3</color>
 </resources>
