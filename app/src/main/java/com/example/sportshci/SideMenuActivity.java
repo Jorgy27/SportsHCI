@@ -56,12 +56,12 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        Fragment f = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container); //gets active fragment_container
+        //Fragment f = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container); //gets active fragment_container
         switch (item.getItemId()) {
             case R.id.nav_add:
-                if (f instanceof HomeFragment) { //checks if active fragment is Homefragment
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
-                }
+
+                    AddSport addSport = new AddSport();
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, addSport).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
