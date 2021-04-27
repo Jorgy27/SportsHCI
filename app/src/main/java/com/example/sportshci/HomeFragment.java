@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
-        });*/
+        });
         return view;
     }
     public void openSideMenuActivity(){
