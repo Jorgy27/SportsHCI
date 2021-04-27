@@ -16,6 +16,8 @@ public interface MyDao {
     @Query("SELECT * FROM SPORTS")
     public List<Sport> getSports();
 
+    @Query("SELECT COUNT(*) FROM SPORTS")
+    public int countSports();
 
     //---------------Athlete methods---------------
     @Insert

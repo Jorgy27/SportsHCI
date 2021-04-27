@@ -1,4 +1,4 @@
-package com.example.sportshci;
+package com.example.sportshci.Sports.Tests;
 
 import android.os.Bundle;
 
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import com.example.sportshci.MainActivity;
+import com.example.sportshci.R;
 import com.example.sportshci.Room.*;
 
 public class DatabaseLog extends Fragment {

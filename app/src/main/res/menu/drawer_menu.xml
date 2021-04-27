@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single"><!--this way only one can be selected-->
+        <item
+            android:id="@+id/nav_add"
+            android:icon="@drawable/ic_add"
+            android:title="Add" />
+        <item
+            android:id="@+id/nav_remove"
+            android:icon="@drawable/ic_remove"
+            android:title="Remove" />
+    </group>
+</menu>

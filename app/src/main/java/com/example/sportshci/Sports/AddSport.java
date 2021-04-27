@@ -1,4 +1,4 @@
-package com.example.sportshci;
+package com.example.sportshci.Sports;
 
 import android.os.Bundle;
 
@@ -12,15 +12,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.sportshci.MainActivity;
+import com.example.sportshci.R;
 import com.example.sportshci.Room.*;
+import com.example.sportshci.Sports.Tests.DatabaseLog;
 
 
-public class TestDatabase extends Fragment {
+public class AddSport extends Fragment {
 
     EditText sportNameTxt, sportTypeTxt, sportGenderTxt;
     Button button;
 
-    public TestDatabase() {
+    public AddSport() {
         // Required empty public constructor
     }
 
