@@ -6,22 +6,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.sportshci.Room.MyDatabase;
+import com.example.sportshci.Room.Sport;
 import com.example.sportshci.Sports.AddSport;
+import com.example.sportshci.Sports.*;
+import com.example.sportshci.Sports.SportsRecyclerAdapter;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     private DrawerLayout drawer;
+    List<Sport> sportList;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +41,10 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
         fragmentManager = getSupportFragmentManager();
         myDatabase = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "sportsDB").allowMainThreadQueries().build(); //build database for this activity
+
+        Bundle extras = getIntent().getExtras();
+        String action = extras.getString("sideMenu");
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -43,6 +58,30 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        switch (action){
+            case "Sports":
+                sportList = new ArrayList<>();
+                recyclerView = findViewById(R.id.recyclerList);
+
+                setSportsInfo();
+                setSportsAdapter();
+
+                Toast.makeText(this,"Sports",Toast.LENGTH_LONG).show();
+
+        }
+    }
+
+    private void setSportsAdapter() {
+        SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setSportsInfo(){
+        sportList = MainActivity.myDatabase.myDao().getSports();
     }
 
     @Override
@@ -56,15 +95,16 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        //Fragment f = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container); //gets active fragment_container
         switch (item.getItemId()) {
             case R.id.nav_add:
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
+                break;
+            case R.id.nav_remove:
 
-                    AddSport addSport = new AddSport();
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, addSport).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
