@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="typeTxt" type="id" />
+    <item name="nameTxt" type="id" />
+    <item name="genderTxt" type="id" />
+</resources>

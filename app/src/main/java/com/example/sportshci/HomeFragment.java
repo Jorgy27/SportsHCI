@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
         sportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSideMenuActivity();
+                openSideMenuActivity("Sports");
             }
         });
         /*
@@ -52,9 +52,9 @@ public class HomeFragment extends Fragment {
         });*/
         return view;
     }
-    public void openSideMenuActivity(){
+    public void openSideMenuActivity(String value){
         Intent intent = new Intent(getActivity(),SideMenuActivity.class);
-        intent.putExtra("mainActivity","to Side");
+        intent.putExtra("sideMenu",value);
         startActivity(intent);
     }
 }
