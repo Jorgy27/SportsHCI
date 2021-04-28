@@ -8,8 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.sportshci.MainActivity;
@@ -18,10 +21,13 @@ import com.example.sportshci.Room.*;
 import com.example.sportshci.Sports.Tests.DatabaseLog;
 
 
-public class AddSport extends Fragment {
+public class AddSport extends Fragment implements AdapterView.OnItemSelectedListener {
 
     EditText sportNameTxt, sportTypeTxt, sportGenderTxt;
     Button button;
+    View view;
+
+    String genderText ,typeText;
 
     public AddSport() {
         // Required empty public constructor
@@ -31,17 +37,20 @@ public class AddSport extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_test_database, container, false);
+        view = inflater.inflate(R.layout.fragment_test_database, container, false);
 
         sportNameTxt = view.findViewById(R.id.sportNameTxt);
-        sportTypeTxt = view.findViewById(R.id.sportTypeTxt);
-        sportGenderTxt = view.findViewById(R.id.sportGenderTxt);
+        //sportTypeTxt = view.findViewById(R.id.sportTypeTxt);
+        //sportGenderTxt = view.findViewById(R.id.sportGenderTxt);
+        CreateGenderDropDownSpinner(); //gemizei to dropdown gia ta genders
+        CreateTypeDropDownSpinner(); //gemizei to dropdown gia ta types
+
         button = view.findViewById(R.id.submitBtn);
 
         button.setOnClickListener( (v)->{
                 String var_sportName = sportNameTxt.getText().toString();
-                String var_sportType = sportTypeTxt.getText().toString();
-                String var_sportGender = sportGenderTxt.getText().toString();
+                String var_sportType = typeText;
+                String var_sportGender = genderText;
 
                 Sport sport = new Sport();
                 sport.setName(var_sportName);
@@ -63,4 +72,45 @@ public class AddSport extends Fragment {
         return view;
     }
 
+    void CreateGenderDropDownSpinner()
+    {
+        Spinner dropdown = view.findViewById(R.id.sportGenderSpinner);
+        String[] items = new String[]{"Male","Female"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, items);
+        dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(this);
+    }
+
+    void CreateTypeDropDownSpinner()
+    {
+        Spinner dropdown = view.findViewById(R.id.sportTypeSpinner);
+        String[] items = new String[]{"Single","Team"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, items);
+        dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(parent.getId()==R.id.sportGenderSpinner)
+        {
+            genderText=parent.getItemAtPosition(position).toString();
+        }
+        if(parent.getId()==R.id.sportTypeSpinner)
+        {
+            typeText=parent.getItemAtPosition(position).toString();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        if(parent.getId()==R.id.sportGenderSpinner)
+        {
+            genderText="Male";
+        }
+        if(parent.getId()==R.id.sportTypeSpinner)
+        {
+            typeText = "Single";
+        }
+    }
 }
