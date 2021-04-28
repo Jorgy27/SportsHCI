@@ -14,6 +14,8 @@ import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.sportshci.Room.MyDatabase;
@@ -26,7 +28,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener {
 
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
@@ -42,23 +44,13 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         fragmentManager = getSupportFragmentManager();
         myDatabase = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "sportsDB").allowMainThreadQueries().build(); //build database for this activity
 
+        //Gets the string of the intent that shows what the user wants to see. (Sports,Matches,Athletes/Teams)
         Bundle extras = getIntent().getExtras();
         String action = extras.getString("sideMenu");
 
+        initialiseSideMenu();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        drawer = findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        switch (action){
+        switch (action) {
             case "Sports":
                 sportList = new ArrayList<>();
                 recyclerView = findViewById(R.id.recyclerList);
@@ -66,13 +58,30 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 setSportsInfo();
                 setSportsAdapter();
 
-                Toast.makeText(this,"Sports",Toast.LENGTH_LONG).show();
+                //Toast.makeText(this,"Sports",Toast.LENGTH_LONG).show();
 
         }
     }
 
+    private void initialiseSideMenu() {
+        //Sets the toolbar to act like an action bar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //Initialise the drawer layout we have created and add the ActionBarDrawerToggle so we can use the Drawer as an ActionBar
+        drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        //Set an Item Selected Listener on the items of the side menu
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+
+
     private void setSportsAdapter() {
-        SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList);
+        SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList,this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
 
         recyclerView.setLayoutManager(layoutManager);
@@ -80,7 +89,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         recyclerView.setAdapter(adapter);
     }
 
-    private void setSportsInfo(){
+    private void setSportsInfo() {
         sportList = MainActivity.myDatabase.myDao().getSports();
     }
 
@@ -97,7 +106,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
         switch (item.getItemId()) {
             case R.id.nav_add:
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
                 break;
             case R.id.nav_remove:
 
@@ -107,4 +116,11 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
+    @Override
+    public void onSportClick(int position) {
+
+        String sport = sportList.get(position).getName();
+        //New activity here
+        Toast.makeText(this,sport,Toast.LENGTH_LONG).show();
+    }
 }
