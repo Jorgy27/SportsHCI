@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.sportshci.AthletesAndTeams.AthletesAndTeams;
 import com.example.sportshci.Room.MyDatabase;
 import com.example.sportshci.Room.Sport;
 import com.example.sportshci.Sports.AddSport;
@@ -35,6 +36,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private DrawerLayout drawer;
     List<Sport> sportList;
     private RecyclerView recyclerView;
+    private String action;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,8 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         fragmentManager = getSupportFragmentManager();
         myDatabase = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "sportsDB").allowMainThreadQueries().build(); //build database for this activity
 
-        //Gets the string of the intent that shows what the user wants to see. (Sports,Matches,Athletes/Teams)
         Bundle extras = getIntent().getExtras();
-        String action = extras.getString("sideMenu");
+        action = extras.getString("sideMenu");
 
         initialiseSideMenu();
 
@@ -68,20 +69,34 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Initialise the drawer layout we have created and add the ActionBarDrawerToggle so we can use the Drawer as an ActionBar
         drawer = findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        //Set an Item Selected Listener on the items of the side menu
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        switch (action){
+            case "Sports":
+                sportList = new ArrayList<>();
+                recyclerView = findViewById(R.id.recyclerList);
+
+                setSportsInfo();
+                setSportsAdapter();
+
+                Toast.makeText(this,"Sports",Toast.LENGTH_LONG).show();
+                break;
+            case "Athletes":
+                Toast.makeText(this,"Athletes",Toast.LENGTH_LONG).show();
+                break;
+
+        }
     }
 
-
-
     private void setSportsAdapter() {
-        SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList,this);
+        SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
 
         recyclerView.setLayoutManager(layoutManager);
@@ -104,16 +119,32 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.nav_add:
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
-                break;
-            case R.id.nav_remove:
+        switch (action)
+        {
+            case "Sports":
+                switch (item.getItemId()) {
+                    case R.id.nav_add:
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
+                        break;
+                    case R.id.nav_remove:
 
+                        break;
+                }
+                break;
+            case "Athletes":
+                switch (item.getItemId()) {
+                    case R.id.nav_add:
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, new AthletesAndTeams()).commit();
+                        break;
+                    case R.id.nav_remove:
+
+                        break;
+                }
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
     }
 
     @Override

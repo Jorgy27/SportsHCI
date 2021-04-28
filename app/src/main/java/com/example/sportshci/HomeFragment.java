@@ -37,19 +37,14 @@ public class HomeFragment extends Fragment {
                 openSideMenuActivity("Sports");
             }
         });
-        /*
+
         addBtn = view.findViewById(R.id.athletesBtn); //mesa apo to view vriskw to button
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddSport testDatabase = new AddSport();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                transaction.replace(R.id.fragment_container, testDatabase);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                openSideMenuActivity("Athletes");
             }
-        });*/
+        });
         return view;
     }
     public void openSideMenuActivity(String value){
