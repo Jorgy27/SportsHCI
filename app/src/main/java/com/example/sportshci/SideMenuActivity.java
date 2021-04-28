@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.sportshci.Athletes.AthletesAndTeams;
 import com.example.sportshci.Room.MyDatabase;
 import com.example.sportshci.Room.Sport;
 import com.example.sportshci.Sports.AddSport;
@@ -33,6 +34,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private DrawerLayout drawer;
     List<Sport> sportList;
     private RecyclerView recyclerView;
+    private String action;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         myDatabase = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "sportsDB").allowMainThreadQueries().build(); //build database for this activity
 
         Bundle extras = getIntent().getExtras();
-        String action = extras.getString("sideMenu");
+        action = extras.getString("sideMenu");
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -67,6 +69,10 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 setSportsAdapter();
 
                 Toast.makeText(this,"Sports",Toast.LENGTH_LONG).show();
+                break;
+            case "Athletes":
+                Toast.makeText(this,"Athletes",Toast.LENGTH_LONG).show();
+                break;
 
         }
     }
@@ -95,16 +101,32 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.nav_add:
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
-                break;
-            case R.id.nav_remove:
+        switch (action)
+        {
+            case "Sports":
+                switch (item.getItemId()) {
+                    case R.id.nav_add:
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
+                        break;
+                    case R.id.nav_remove:
 
+                        break;
+                }
+                break;
+            case "Athletes":
+                switch (item.getItemId()) {
+                    case R.id.nav_add:
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, new AthletesAndTeams()).commit();
+                        break;
+                    case R.id.nav_remove:
+
+                        break;
+                }
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
     }
 
 }
