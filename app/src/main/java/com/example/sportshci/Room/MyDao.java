@@ -1,6 +1,7 @@
 package com.example.sportshci.Room;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -19,6 +20,9 @@ public interface MyDao {
     @Query("SELECT COUNT(*) FROM SPORTS")
     public int countSports();
 
+    @Delete
+    public  void deleteSport(Sport sport);
+    
     //---------------Athlete methods---------------
     @Insert
     public void addAthlete(Athlete athlete);

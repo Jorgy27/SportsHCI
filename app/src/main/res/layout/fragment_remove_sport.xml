@@ -7,7 +7,8 @@
     app:cardUseCompatPadding="true"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="3dp"
-    app:cardElevation="3dp">
+    app:cardElevation="3dp"
+    android:clickable="true">
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,26 +17,14 @@
 
         <TableRow >
             <TextView
-                android:id="@+id/nameTxt"
+                android:id="@+id/removeNameTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Name"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="150dp"
                 android:layout_marginRight="40dp"
                 android:layout_column="0"/>
-            <TextView
-                android:id="@+id/typeTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Type"
-                android:layout_marginRight="40dp"
-                android:layout_column="1"/>
-            <TextView
-                android:id="@+id/genderTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gender"
-                android:layout_column="2"/>
+
         </TableRow>
 
     </TableLayout>

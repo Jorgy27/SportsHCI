@@ -23,15 +23,20 @@ import com.example.sportshci.Matches.*;
 import com.example.sportshci.Sports.*;
 import com.example.sportshci.Room.MyDatabase;
 import com.example.sportshci.Room.Sport;
+import com.example.sportshci.Sports.AddSport;
+import com.example.sportshci.Sports.*;
+import com.example.sportshci.Sports.SportsRecyclerAdapter;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener {
-
+public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener {
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
+    public static FirebaseFirestore db;
     private DrawerLayout drawer;
     private List<Sport> sportList;
     private RecyclerView recyclerView;
@@ -44,22 +49,23 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
         fragmentManager = getSupportFragmentManager();
         myDatabase = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "sportsDB").allowMainThreadQueries().build(); //build database for this activity
+        db = FirebaseFirestore.getInstance();
 
+        //Gets the string of the intent that shows what the user wants to see. (Sports,Matches,Athletes/Teams)
         Bundle extras = getIntent().getExtras();
         action = extras.getString("sideMenu");
 
         initialiseSideMenu();
 
-        recyclerView = findViewById(R.id.recyclerList);
-        switch (action){
-
+        switch (action) {
             case "Sports":
                 sportList = new ArrayList<>();
+                recyclerView = findViewById(R.id.recyclerList);
 
                 setSportsInfo();
-                setSportsAdapter();
-
-                Toast.makeText(this,"Sports",Toast.LENGTH_LONG).show();
+                SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList, this);
+                setRecyclerLayout();
+                recyclerView.setAdapter(adapter);
                 break;
             case "Athletes":
                 Toast.makeText(this,"Athletes",Toast.LENGTH_LONG).show();
@@ -72,8 +78,8 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Initialise the drawer layout we have created and add the ActionBarDrawerToggle so we can use the Drawer as an ActionBar
         drawer = findViewById(R.id.drawer_layout);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -95,13 +101,12 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         toolbar.setVisibility(View.INVISIBLE);
     }
 
-    private void setSportsAdapter() {
-        SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList,this);
+
+    private  void setRecyclerLayout(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
     }
 
     private void setSportsInfo() {
@@ -128,21 +133,22 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
                         break;
                     case R.id.nav_remove:
-
+                        RemoveSportsAdapter adapter = new RemoveSportsAdapter(sportList, this);
+                        setRecyclerLayout();
+                        recyclerView.setAdapter(adapter);
                         break;
                 }
-                break;
-            case "Athletes":
+             case "Athletes":
                 switch (item.getItemId()) {
                     case R.id.nav_add:
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, new AthletesAndTeams()).commit();
-                        break;
-                    case R.id.nav_remove:
+                            break;
+                     case R.id.nav_remove:
 
                         break;
-                }
-                break;
-            case"Matches":
+                 }
+                        break;
+             case"Matches":
                 switch (item.getItemId()) {
                     case R.id.nav_add:
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMatch()).commit();
@@ -151,18 +157,28 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
                         break;
                 }
-                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
-
     }
 
     @Override
     public void onSportClick(int position) {
-        String sport = sportList.get(position).getName();
+        String typeOfSport = sportList.get(position).getType();
         action="Matches"; //TODO na to ksanakanw Sports
         fragmentManager.beginTransaction().replace(R.id.fragment_container, new MatchesViewFragment()).commit();
-        Toast.makeText(this,sport,Toast.LENGTH_LONG).show();
+        if(typeOfSport.equals("Team")){
+            //fragmentManager.beginTransaction().replace(R.id.fragment_container, new TeamMatches()).commit();
+        }else{
+            //an einai single na tou vgazei kai ena option me ton arithmo contestands
+            Toast.makeText(this,typeOfSport,Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    @Override
+    public void onRemoveSportClick(int position) {
+        Sport sport = sportList.get(position);
+        myDatabase.myDao().deleteSport(sport);
     }
 }
