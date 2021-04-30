@@ -138,17 +138,18 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                         recyclerView.setAdapter(adapter);
                         break;
                 }
-             case "Athletes":
+                break;
+            case "Athletes":
                 switch (item.getItemId()) {
                     case R.id.nav_add:
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, new AthletesAndTeams()).commit();
-                            break;
-                     case R.id.nav_remove:
+                        break;
+                    case R.id.nav_remove:
 
                         break;
-                 }
-                        break;
-             case"Matches":
+                }
+                break;
+            case"Matches":
                 switch (item.getItemId()) {
                     case R.id.nav_add:
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMatch()).commit();
@@ -157,9 +158,11 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
                         break;
                 }
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
     }
 
     @Override
