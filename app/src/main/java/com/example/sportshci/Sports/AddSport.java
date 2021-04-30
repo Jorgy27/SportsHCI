@@ -1,5 +1,6 @@
 package com.example.sportshci.Sports;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.example.sportshci.MainActivity;
 import com.example.sportshci.R;
 import com.example.sportshci.Room.*;
+import com.example.sportshci.SideMenuActivity;
 import com.example.sportshci.Sports.Tests.DatabaseLog;
 
 
@@ -44,32 +46,42 @@ public class AddSport extends Fragment implements AdapterView.OnItemSelectedList
         //sportGenderTxt = view.findViewById(R.id.sportGenderTxt);
         CreateGenderDropDownSpinner(); //gemizei to dropdown gia ta genders
         CreateTypeDropDownSpinner(); //gemizei to dropdown gia ta types
+        InstantiateSubmitButton();//kanei litourgiko to submit button
 
+        return view;
+    }
+
+    void InstantiateSubmitButton()
+    {
         button = view.findViewById(R.id.submitBtn);
 
-        button.setOnClickListener( (v)->{
-                String var_sportName = sportNameTxt.getText().toString();
-                String var_sportType = typeText;
-                String var_sportGender = genderText;
+        button.setOnClickListener((v) -> {
+                    String var_sportName = sportNameTxt.getText().toString();
+                    String var_sportType = typeText;
+                    String var_sportGender = genderText;
 
-                Sport sport = new Sport();
-                sport.setName(var_sportName);
-                sport.setType(var_sportType);
-                sport.setGender(var_sportGender);
+                    Sport sport = new Sport();
+                    sport.setName(var_sportName);
+                    sport.setType(var_sportType);
+                    sport.setGender(var_sportGender);
 
-                MainActivity.myDatabase.myDao().addSport(sport);
-                Toast.makeText(getActivity(),"Ola kala bro mou ola popa",Toast.LENGTH_LONG).show();
+                    MainActivity.myDatabase.myDao().addSport(sport);
+                    /*
+                    Toast.makeText(getActivity(),"Ola kala bro mou ola popa",Toast.LENGTH_LONG).show();
+                    DatabaseLog databaseLogFragment = new DatabaseLog();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
+                    transaction.replace(R.id.fragment_container, databaseLogFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                     */
 
-                DatabaseLog databaseLogFragment = new DatabaseLog();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    //Kanei restart to activity gia na ksanapaei sti lista me ta athlimata
+                    SideMenuActivity activity =(SideMenuActivity) getActivity();
+                    activity.RefreshActivity();
 
-                transaction.replace(R.id.fragment_container, databaseLogFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
+                }
         );
-        return view;
     }
 
     void CreateGenderDropDownSpinner()

@@ -13,16 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:stretchColumns="5">
+        android:stretchColumns="5"
+        android:background="@color/dark_red">
 
-        <TableRow >
+        <TableRow
+            android:background="@android:color/transparent"
+            android:gravity="center_horizontal">
             <TextView
+                style="@style/MyText"
+                android:textColor="@color/soothing_breeze"
                 android:id="@+id/removeNameTxt"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
-                android:layout_marginLeft="150dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_column="0"/>
 
         </TableRow>

@@ -41,6 +41,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private List<Sport> sportList;
     private RecyclerView recyclerView;
     public static String action;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +69,14 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 recyclerView.setAdapter(adapter);
                 break;
             case "Athletes":
-                Toast.makeText(this,"Athletes",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Athletes and Teams",Toast.LENGTH_LONG).show();
                 break;
         }
     }
 
     private void initialiseSideMenu() {
         //Sets the toolbar to act like an action bar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Initialise the drawer layout we have created and add the ActionBarDrawerToggle so we can use the Drawer as an ActionBar
@@ -92,12 +93,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
     private void HideSideMenu()
     {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         toolbar.setVisibility(View.INVISIBLE);
     }
 
@@ -117,6 +113,10 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        }
+        if(toolbar.getVisibility()==View.INVISIBLE) // otan einai INVISIBLE to toolbar den einai sto arxiko fragment tou activity ara otan patisei back pigenei ekei
+        {
+            RefreshActivity();
         }
         super.onBackPressed();
     }
@@ -183,5 +183,13 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     public void onRemoveSportClick(int position) {
         Sport sport = sportList.get(position);
         myDatabase.myDao().deleteSport(sport);
+        RefreshActivity();
+    }
+
+    public void RefreshActivity()
+    {
+        //Kanei restart to activity gia na ksanapaei sti lista me ta athlimata h me tis omades kai tous athlites
+        finish();
+        startActivity(getIntent());
     }
 }

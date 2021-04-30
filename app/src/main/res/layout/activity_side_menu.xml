@@ -41,7 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/soothing_breeze"
         app:headerLayout="@layout/nav_header"
+        app:itemBackground="@android:color/transparent"
+        app:itemTextColor="@color/soothing_breeze"
         app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

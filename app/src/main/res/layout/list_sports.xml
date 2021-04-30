@@ -12,34 +12,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:stretchColumns="5">
+        android:stretchColumns="5"
+        android:background="@color/dracula_orchid">
 
-        <TableRow >
+        <TableRow
+            android:background="@android:color/transparent">
+
             <TextView
                 android:id="@+id/nameTxt"
+                style="@style/MyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:maxLength="27"
                 android:text="Name"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_column="0"/>
+                android:textColor="@color/soothing_breeze"
+                android:textStyle="bold"
+                app:autoSizeTextType="none" />
             <TextView
                 android:id="@+id/typeTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Type"
-                android:layout_marginRight="40dp"
-                android:layout_column="1"/>
+                android:layout_marginRight="10dp"
+                android:layout_column="1"
+                style="@style/MyText"
+                android:textColor="@color/soothing_breeze"/>
             <TextView
                 android:id="@+id/genderTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Gender"
-                android:layout_column="2"/>
+                android:layout_column="2"
+                style="@style/MyText"
+                android:textColor="@color/soothing_breeze"/>
         </TableRow>
 
     </TableLayout>
-
-
-
 </androidx.cardview.widget.CardView>
