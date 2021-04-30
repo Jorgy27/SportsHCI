@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Athletes.AthletesAndTeams"
+    tools:context=".AthletesAndTeams.AthletesAndTeams"
     android:background="@color/dracula_orchid">
 
     <ImageView
@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/black">
+        app:tabTextColor="#6D767A">
 
 
         <com.google.android.material.tabs.TabItem

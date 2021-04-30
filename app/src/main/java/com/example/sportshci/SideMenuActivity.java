@@ -19,11 +19,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.sportshci.AthletesAndTeams.AthletesAndTeams;
+import com.example.sportshci.Matches.*;
+import com.example.sportshci.Sports.*;
 import com.example.sportshci.Room.MyDatabase;
 import com.example.sportshci.Room.Sport;
-import com.example.sportshci.Sports.AddSport;
-import com.example.sportshci.Sports.*;
-import com.example.sportshci.Sports.SportsRecyclerAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -34,9 +33,9 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     private DrawerLayout drawer;
-    List<Sport> sportList;
+    private List<Sport> sportList;
     private RecyclerView recyclerView;
-    private String action;
+    public static String action;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +50,20 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
         initialiseSideMenu();
 
-        switch (action) {
+        recyclerView = findViewById(R.id.recyclerList);
+        switch (action){
+
             case "Sports":
                 sportList = new ArrayList<>();
-                recyclerView = findViewById(R.id.recyclerList);
 
                 setSportsInfo();
                 setSportsAdapter();
 
-                //Toast.makeText(this,"Sports",Toast.LENGTH_LONG).show();
-
+                Toast.makeText(this,"Sports",Toast.LENGTH_LONG).show();
+                break;
+            case "Athletes":
+                Toast.makeText(this,"Athletes",Toast.LENGTH_LONG).show();
+                break;
         }
     }
 
@@ -78,25 +81,22 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        switch (action){
-            case "Sports":
-                sportList = new ArrayList<>();
-                recyclerView = findViewById(R.id.recyclerList);
+        toolbar.setVisibility(View.VISIBLE);
+    }
 
-                setSportsInfo();
-                setSportsAdapter();
+    private void HideSideMenu()
+    {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-                Toast.makeText(this,"Sports",Toast.LENGTH_LONG).show();
-                break;
-            case "Athletes":
-                Toast.makeText(this,"Athletes",Toast.LENGTH_LONG).show();
-                break;
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-        }
+        toolbar.setVisibility(View.INVISIBLE);
     }
 
     private void setSportsAdapter() {
-        SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList);
+        SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList,this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
 
         recyclerView.setLayoutManager(layoutManager);
@@ -119,6 +119,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        HideSideMenu();
         switch (action)
         {
             case "Sports":
@@ -141,6 +142,16 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                         break;
                 }
                 break;
+            case"Matches":
+                switch (item.getItemId()) {
+                    case R.id.nav_add:
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMatch()).commit();
+                        break;
+                    case R.id.nav_remove:
+
+                        break;
+                }
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -149,9 +160,9 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onSportClick(int position) {
-
         String sport = sportList.get(position).getName();
-        //New activity here
+        action="Matches"; //TODO na to ksanakanw Sports
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, new MatchesViewFragment()).commit();
         Toast.makeText(this,sport,Toast.LENGTH_LONG).show();
     }
 }

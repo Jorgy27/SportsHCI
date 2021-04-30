@@ -1,14 +1,9 @@
-package com.example.sportshci.Athletes;
+package com.example.sportshci.AthletesAndTeams;
 
-import android.app.Activity;
-import android.app.Notification;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -16,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sportshci.R;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 public class AthletesAndTeams extends Fragment {

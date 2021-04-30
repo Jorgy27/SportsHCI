@@ -1,4 +1,4 @@
-package com.example.sportshci.Athletes;
+package com.example.sportshci.AthletesAndTeams;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

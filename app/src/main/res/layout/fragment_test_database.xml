@@ -8,7 +8,6 @@
     android:background="@color/dracula_orchid"
     android:clickable="true">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <ImageView
         android:id="@+id/imageView2"
@@ -36,6 +35,7 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
+        style="@style/MyText"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
