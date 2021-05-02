@@ -31,16 +31,15 @@ public class DatabaseLog extends Fragment {
         View view = inflater.inflate(R.layout.fragment_database_log, container, false);
 
         textView = view.findViewById(R.id.textView2);
-        List<Sport> sports = MainActivity.myDatabase.myDao().getSports();
+        List<Team> teams = MainActivity.myDatabase.myDao().getTeams();
         String result = "";
 
-        for (Sport i:sports){
+        for (Team i:teams){
             int code = i.getCode();
             String name = i.getName();
-            String type = i.getType();
-            String gender = i.getGender();
+            int type = i.getSport();
 
-            result = result + "\n Id: "+code+"\n Name: "+name+"\n Type: "+type+"\n Gender: "+gender+"\n";
+            result = result + "\n Id: "+code+"\n FName: "+name+"\n sport: "+type+"\n";
         }
         textView.setText(result);
         return view;

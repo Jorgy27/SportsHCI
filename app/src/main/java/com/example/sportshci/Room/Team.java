@@ -14,6 +14,7 @@ public class Team {
     private int code;
     private String name;
     private String field;
+    private String city;
     private String country;
     private int sport;
     private String birthday;
@@ -40,6 +41,14 @@ public class Team {
 
     public void setField(String field) {
         this.field = field;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getCountry() {
