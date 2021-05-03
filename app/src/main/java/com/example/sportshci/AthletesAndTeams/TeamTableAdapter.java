@@ -56,8 +56,6 @@ public class TeamTableAdapter extends RecyclerView.Adapter<TeamTableAdapter.MyVi
     }
 
 
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView nameTxt, stadiumTxt, cityTxt, countryTxt, birthTxt, sportTxt;
