@@ -17,8 +17,11 @@ public interface MyDao {
     @Query("SELECT * FROM SPORTS")
     public List<Sport> getSports();
 
-    @Query("SELECT SPORTS.CODE FROM SPORTS WHERE SPORTS.NAME = :sportname")
-    public int getSportIdByName(String sportname);
+    @Query("SELECT SPORTS.CODE FROM SPORTS WHERE SPORTS.NAME = :sportName")
+    public int getSportIdByName(String sportName);
+
+    @Query("SELECT SPORTS.NAME FROM SPORTS WHERE SPORTS.CODE = :sportCode")
+    public String getSportNameById(int sportCode);
 
     @Query("SELECT COUNT(*) FROM SPORTS")
     public int countSports();
