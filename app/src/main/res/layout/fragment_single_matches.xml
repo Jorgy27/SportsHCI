@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="3dp">
+
+    <TableLayout
+        android:id="@+id/displayLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:stretchColumns="5"
+        android:background="@color/soothing_breeze">
+        <TableRow>
+            <TextView
+                android:id="@+id/dateTxtS"
+                android:text="Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/nav_black"
+                android:layout_column="0"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/cityTxtS"
+                android:text="City"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/nav_black"
+                android:layout_column="0"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/countryTxtS"
+                android:text="Country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/nav_black"
+                android:layout_column="0"/>
+        </TableRow>
+    </TableLayout>
+
+</androidx.cardview.widget.CardView>

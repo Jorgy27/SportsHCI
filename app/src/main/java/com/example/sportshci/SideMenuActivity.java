@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +19,12 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.sportshci.AthletesAndTeams.AthleteTableAdapter;
 import com.example.sportshci.AthletesAndTeams.AthletesAndTeams;
+import com.example.sportshci.AthletesAndTeams.TeamTableAdapter;
 import com.example.sportshci.Matches.*;
+import com.example.sportshci.Room.Athlete;
+import com.example.sportshci.Room.Team;
 import com.example.sportshci.Sports.*;
 import com.example.sportshci.Room.MyDatabase;
 import com.example.sportshci.Room.Sport;
@@ -33,12 +38,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener {
+public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener {
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     public static FirebaseFirestore db;
     private DrawerLayout drawer;
     private List<Sport> sportList;
+    private List<Athlete> athleteList;
+    private List<Team> teamList;
     private RecyclerView recyclerView;
     public static String action;
     private Toolbar toolbar;
@@ -58,10 +65,11 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
         initialiseSideMenu();
 
+        recyclerView = findViewById(R.id.recyclerList);
+
         switch (action) {
             case "Sports":
                 sportList = new ArrayList<>();
-                recyclerView = findViewById(R.id.recyclerList);
 
                 setSportsInfo();
                 SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList, this);
@@ -69,7 +77,20 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 recyclerView.setAdapter(adapter);
                 break;
             case "Athletes":
-                Toast.makeText(this,"Athletes and Teams",Toast.LENGTH_LONG).show();
+                athleteList = new ArrayList<>();
+                teamList = new ArrayList<>();
+                setAthletesInfo();
+                setTeamsInfo();
+
+                AthleteTableAdapter athleteAdapter = new AthleteTableAdapter(athleteList,this);
+                TeamTableAdapter teamAdapter = new TeamTableAdapter(teamList,this);
+                setRecyclerLayout();
+                //recyclerView.setAdapter(athleteAdapter);
+                //recyclerView.swapAdapter(teamAdapter,false);
+
+                ConcatAdapter concatAdapter = new ConcatAdapter(athleteAdapter,teamAdapter);
+                recyclerView.setAdapter(concatAdapter);
+
                 break;
         }
     }
@@ -107,6 +128,12 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
     private void setSportsInfo() {
         sportList = MainActivity.myDatabase.myDao().getSports();
+    }
+    private void setAthletesInfo() {
+        athleteList = MainActivity.myDatabase.myDao().getAthletes();
+    }
+    private void setTeamsInfo() {
+        teamList = MainActivity.myDatabase.myDao().getTeams();
     }
 
     @Override
@@ -178,7 +205,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-
     @Override
     public void onRemoveSportClick(int position) {
         Sport sport = sportList.get(position);
@@ -191,5 +217,17 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         //Kanei restart to activity gia na ksanapaei sti lista me ta athlimata h me tis omades kai tous athlites
         finish();
         startActivity(getIntent());
+    }
+
+    @Override
+    public void onAthleteClick(int position)
+    {
+
+    }
+
+    @Override
+    public void onTeamClick(int position)
+    {
+
     }
 }

@@ -42,8 +42,6 @@ public class AddSport extends Fragment implements AdapterView.OnItemSelectedList
         view = inflater.inflate(R.layout.fragment_test_database, container, false);
 
         sportNameTxt = view.findViewById(R.id.sportNameTxt);
-        //sportTypeTxt = view.findViewById(R.id.sportTypeTxt);
-        //sportGenderTxt = view.findViewById(R.id.sportGenderTxt);
         CreateGenderDropDownSpinner(); //gemizei to dropdown gia ta genders
         CreateTypeDropDownSpinner(); //gemizei to dropdown gia ta types
         InstantiateSubmitButton();//kanei litourgiko to submit button
