@@ -50,6 +50,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private RecyclerView recyclerView;
     public static String action;
     private Toolbar toolbar;
+    static boolean onDelete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +72,15 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         switch (action) {
             case "Sports":
                 sportList = new ArrayList<>();
-
                 setSportsInfo();
+
+                if(onDelete)
+                {
+                    SetSportRemove();
+                    break;
+                }
+                onDelete=false;
+
                 SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList, this);
                 setRecyclerLayout();
                 recyclerView.setAdapter(adapter);
@@ -82,6 +90,13 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 teamList = new ArrayList<>();
                 setAthletesInfo();
                 setTeamsInfo();
+
+                if(onDelete)
+                {
+                    SetAthleteAndTeamRemove();
+                    break;
+                }
+                onDelete=false;
 
                 AthleteTableAdapter athleteAdapter = new AthleteTableAdapter(athleteList,this);
                 TeamTableAdapter teamAdapter = new TeamTableAdapter(teamList,this);
@@ -139,6 +154,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onBackPressed() {
+        onDelete=false;
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
@@ -157,22 +173,22 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             case "Sports":
                 switch (item.getItemId()) {
                     case R.id.nav_add:
+                        onDelete=false;
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSport()).commit();
                         break;
                     case R.id.nav_remove:
-                        RemoveSportsAdapter adapter = new RemoveSportsAdapter(sportList, this);
-                        setRecyclerLayout();
-                        recyclerView.setAdapter(adapter);
+                        SetSportRemove();
                         break;
                 }
                 break;
             case "Athletes":
                 switch (item.getItemId()) {
                     case R.id.nav_add:
+                        onDelete=false;
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, new AthletesAndTeams()).commit();
                         break;
                     case R.id.nav_remove:
-
+                        SetAthleteAndTeamRemove();
                         break;
                 }
                 break;
@@ -189,7 +205,27 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
 
+    private void SetSportRemove()
+    {
+        onDelete = true;
+        HideSideMenu();
+        RemoveSportsAdapter adapter = new RemoveSportsAdapter(sportList, this);
+        setRecyclerLayout();
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void SetAthleteAndTeamRemove() {
+        onDelete = true;
+        HideSideMenu();
+        /*
+        RemoveAthletesAdapter adapterAthletes = new RemoveSportsAdapter(sportList, this);
+        RemoveTeamsAdapter adapterTeams = new RemoveSportsAdapter(sportList, this);
+        ConcatAdapter adapter = new ConcatAdapter(adapterAthletes, adapterTeams);
+        setRecyclerLayout();
+        recyclerView.setAdapter(adapter);
+         */
     }
 
     @Override
