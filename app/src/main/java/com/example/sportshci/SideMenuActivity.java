@@ -31,6 +31,7 @@ import com.example.sportshci.Room.Sport;
 import com.example.sportshci.Sports.AddSport;
 import com.example.sportshci.Sports.*;
 import com.example.sportshci.Sports.SportsRecyclerAdapter;
+import com.example.sportshci.Sports.Tests.DatabaseLog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -150,7 +151,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         HideSideMenu();
         switch (action)
         {
@@ -196,11 +196,12 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     public void onSportClick(int position) {
         String typeOfSport = sportList.get(position).getType();
         action="Matches"; //TODO na to ksanakanw Sports
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, new MatchesViewFragment()).commit();
+        //fragmentManager.beginTransaction().replace(R.id.fragment_container, new MatchesViewFragment()).commit();
         if(typeOfSport.equals("Team")){
-            //fragmentManager.beginTransaction().replace(R.id.fragment_container, new TeamMatches()).commit();
+            //
         }else{
             //an einai single na tou vgazei kai ena option me ton arithmo contestands
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, new DatabaseLog()).commit();
             Toast.makeText(this,typeOfSport,Toast.LENGTH_LONG).show();
         }
     }
