@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 import com.example.sportshci.AthletesAndTeams.AthleteTableAdapter;
 import com.example.sportshci.AthletesAndTeams.AthletesAndTeams;
 import com.example.sportshci.AthletesAndTeams.TeamTableAdapter;
+import com.example.sportshci.FirestoreDB.SingleMatches;
+import com.example.sportshci.FirestoreDB.TeamMatches;
 import com.example.sportshci.Matches.*;
 import com.example.sportshci.Room.Athlete;
 import com.example.sportshci.Room.Team;
@@ -32,21 +35,31 @@ import com.example.sportshci.Sports.AddSport;
 import com.example.sportshci.Sports.*;
 import com.example.sportshci.Sports.SportsRecyclerAdapter;
 import com.example.sportshci.Sports.Tests.DatabaseLog;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener {
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     public static FirebaseFirestore db;
+    DocumentReference documentReference;
     private DrawerLayout drawer;
     private List<Sport> sportList;
     private List<Athlete> athleteList;
     private List<Team> teamList;
+    private List<TeamMatches> teamMatchesList;
     private RecyclerView recyclerView;
     public static String action;
     private Toolbar toolbar;
@@ -137,6 +150,8 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         teamList = MainActivity.myDatabase.myDao().getTeams();
     }
 
+
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -191,19 +206,56 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         return true;
 
     }
+    private void firebaseHandler(String sport,SideMenuActivity activity) {
+
+
+        db.collection("Matches")
+                .document("TeamMatch")
+                .collection("T_Matches")
+                .whereEqualTo("sport",sport)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            TeamMatches teamMatch = new TeamMatches();
+                            teamMatchesList = new ArrayList<TeamMatches>();
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+
+                                teamMatch = documentSnapshot.toObject(TeamMatches.class);
+                                Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
+                                teamMatchesList.add(teamMatch);
+                            }
+
+                            TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList);
+                            setRecyclerLayout();
+                            recyclerView.setAdapter(adapter);
+                        } else {
+                            Log.d("ERROR","Error getting documents: ", task.getException());
+                        }
+
+
+                    }
+                });
+
+
+    }
 
     @Override
     public void onSportClick(int position) {
+        String sport = sportList.get(position).getName();
         String typeOfSport = sportList.get(position).getType();
-        action="Matches"; //TODO na to ksanakanw Sports
+        action = "Matches"; //TODO na to ksanakanw Sports
+
         //fragmentManager.beginTransaction().replace(R.id.fragment_container, new MatchesViewFragment()).commit();
-        if(typeOfSport.equals("Team")){
-            //
-        }else{
-            //an einai single na tou vgazei kai ena option me ton arithmo contestands
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, new DatabaseLog()).commit();
-            Toast.makeText(this,typeOfSport,Toast.LENGTH_LONG).show();
+        switch (typeOfSport){
+            case "Team":
+                firebaseHandler(sport,this);
+                break;
+            case "Single":
+                break;
         }
+
     }
 
     @Override

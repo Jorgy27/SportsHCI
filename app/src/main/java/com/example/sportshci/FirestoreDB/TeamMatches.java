@@ -9,7 +9,10 @@ public class TeamMatches {
     private String country;
     private String sport;
     private Date date;
-    private Map teams;
+    private Map<String,String> teams;
+    private Map<String,Integer> scores;
+
+
 
     public TeamMatches(){};
 
@@ -53,11 +56,19 @@ public class TeamMatches {
         this.date = date;
     }
 
-    public Map getTeams() {
+    public Map<String, String> getTeams() {
         return teams;
     }
 
-    public void setTeams(Map teams) {
+    public void setTeams(Map<String, String> teams) {
         this.teams = teams;
+    }
+
+    public Map<String, Integer> getScores() {
+        return scores;
+    }
+
+    public void setScores(Map<String, Integer> scores) {
+        this.scores = scores;
     }
 }
