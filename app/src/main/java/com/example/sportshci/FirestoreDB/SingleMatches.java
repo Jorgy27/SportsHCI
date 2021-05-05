@@ -10,7 +10,9 @@ public class SingleMatches {
     private String country;
     private Date date;
     private String sport;
-    private Map athletes;
+    private String gender;
+    private Map<String,String> athletes;
+    private Map<String,String> scores;
 
 
     public SingleMatches(){};
@@ -56,13 +58,27 @@ public class SingleMatches {
         this.sport = sport;
     }
 
-    public Map getAthletes() {
+    public Map<String, String> getAthletes() {
         return athletes;
     }
 
-    public void setAthletes(Map athletes) {
+    public void setAthletes(Map<String, String> athletes) {
         this.athletes = athletes;
     }
 
+    public Map<String, String> getScores() {
+        return scores;
+    }
 
+    public void setScores(Map<String, String> scores) {
+        this.scores = scores;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

@@ -18,12 +18,13 @@ import android.widget.TextView;
 import com.example.sportshci.FirestoreDB.SingleMatches;
 import com.example.sportshci.R;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class SingleMatchesAdapter  extends RecyclerView.Adapter<SingleMatchesAdapter.MyViewHolder> {
 
     private List<SingleMatches> singleMatchesList;
-    private String sport;
 
     public SingleMatchesAdapter(List<SingleMatches> singleMatches)
     {
@@ -39,19 +40,41 @@ public class SingleMatchesAdapter  extends RecyclerView.Adapter<SingleMatchesAda
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Map<String,String> athletes = singleMatchesList.get(position).getAthletes();
+        Map<String,String> scores = singleMatchesList.get(position).getScores();
 
+        int count = athletes.size();
+        String allAthletesWithScores = "";
+        for(int i=1;i<count+1;i++){
+            String key = "athlete"+ String.valueOf(i);
+            allAthletesWithScores += athletes.get(key)+" : "+scores.get(key)+"\n";
+        }
+        String city = singleMatchesList.get(position).getCity();
+        String country = singleMatchesList.get(position).getCountry();
+        Date date = singleMatchesList.get(position).getDate();
+
+        holder.athletesTxt.setText(allAthletesWithScores);
+        holder.dateTxt.setText(date.toString());
+        holder.cityTxt.setText(city);
+        holder.countryTxt.setText(country);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return singleMatchesList.size();
     }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-
-        public MyViewHolder(@NonNull View itemView) {
+        private TextView athletesTxt,cityTxt,countryTxt,dateTxt;
+        public MyViewHolder(@NonNull View itemView)
+        {
             super(itemView);
+            athletesTxt = itemView.findViewById(R.id.athletesWithScore);
+            cityTxt = itemView.findViewById(R.id.cityItemS);
+            countryTxt = itemView.findViewById(R.id.countryItemS);
+            dateTxt = itemView.findViewById(R.id.dateItemS);
+
         }
     }
 }

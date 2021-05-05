@@ -23,6 +23,7 @@ import com.example.sportshci.AthletesAndTeams.AthletesAndTeams;
 import com.example.sportshci.AthletesAndTeams.RemoveAthletesAdapter;
 import com.example.sportshci.AthletesAndTeams.RemoveTeamAdapter;
 import com.example.sportshci.AthletesAndTeams.TeamTableAdapter;
+import com.example.sportshci.FirestoreDB.SingleMatches;
 import com.example.sportshci.FirestoreDB.TeamMatches;
 import com.example.sportshci.Matches.*;
 import com.example.sportshci.Room.Athlete;
@@ -53,6 +54,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private List<Athlete> athleteList;
     private List<Team> teamList;
     private List<TeamMatches> teamMatchesList;
+    private List<SingleMatches> singleMatchesList;
     private RecyclerView recyclerView;
     public static String action;
     private Toolbar toolbar;
@@ -261,26 +263,38 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                     {
                         if(task.isSuccessful())
                         {
-                            TeamMatches teamMatch = new TeamMatches();
-                            teamMatchesList = new ArrayList<TeamMatches>();
-
-                            for(QueryDocumentSnapshot documentSnapshot : task.getResult())
-                            {
-
-                                teamMatch = documentSnapshot.toObject(TeamMatches.class);
-                                Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
-                                teamMatchesList.add(teamMatch);
-                            }
-
                             if(document.equals("TeamMatch"))
                             {
+                                TeamMatches teamMatch = new TeamMatches();
+                                teamMatchesList = new ArrayList<TeamMatches>();
+
+                                for(QueryDocumentSnapshot documentSnapshot : task.getResult())
+                                {
+
+                                    teamMatch = documentSnapshot.toObject(TeamMatches.class);
+                                    //Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
+                                    teamMatchesList.add(teamMatch);
+                                }
+
                                 TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList);
                                 setRecyclerLayout();
                                 recyclerView.setAdapter(adapter);
+
                             }else if(document.equals("SingleMatch"))
                             {
+                                SingleMatches singleMatch = new SingleMatches();
+                                singleMatchesList = new ArrayList<SingleMatches>();
+
+                                for(QueryDocumentSnapshot documentSnapshot : task.getResult())
+                                {
+
+                                    singleMatch = documentSnapshot.toObject(SingleMatches.class);
+                                    //Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
+                                    singleMatchesList.add(singleMatch);
+                                }
+
                                 //change to SingleMatchesAdapter
-                                TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList);
+                                SingleMatchesAdapter adapter = new SingleMatchesAdapter(singleMatchesList);
                                 setRecyclerLayout();
                                 recyclerView.setAdapter(adapter);
                             }
@@ -312,6 +326,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             case "Single":
                 document = "SingleMatch";
                 collection = "S_Matches";
+                handleMatches(sport,genderOfSport,document,collection);
                 break;
         }
     }

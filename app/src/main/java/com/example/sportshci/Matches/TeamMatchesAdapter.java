@@ -70,6 +70,7 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
         private TextView team1Txt,team2Txt,scoreTxt,cityTxt,countryTxt,dateTxt;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
             team1Txt = itemView.findViewById(R.id.team1Item);
             team2Txt = itemView.findViewById(R.id.team2Item);
             scoreTxt = itemView.findViewById(R.id.scoreItem);
