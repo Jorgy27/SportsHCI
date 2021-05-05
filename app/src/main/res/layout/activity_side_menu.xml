@@ -18,14 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:theme="@style/Theme.AppCompat"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerList"
@@ -41,9 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/soothing_breeze"
         app:headerLayout="@layout/nav_header"
-        app:itemBackground="@android:color/transparent"
+        app:itemBackground="@android:color/black"
         app:itemTextColor="@color/soothing_breeze"
         app:menu="@menu/drawer_menu" />
 

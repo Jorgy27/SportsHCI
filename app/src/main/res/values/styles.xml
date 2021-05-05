@@ -1,8 +1,9 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:background">@color/black_overlay</item>
+        <item name="android:background">@color/dracula_orchid</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="android:textViewStyle">@style/MyText</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -12,4 +13,6 @@
     <style name="MyText" parent="@android:style/TextAppearance">
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+
 </resources>

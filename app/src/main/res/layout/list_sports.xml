@@ -13,14 +13,13 @@
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:stretchColumns="5"
-        android:background="@color/dracula_orchid">
+        android:background="@color/soothing_breeze">
 
         <TableRow
             android:background="@android:color/transparent">
 
             <TextView
                 android:id="@+id/nameTxt"
-                style="@style/MyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
@@ -28,7 +27,7 @@
                 android:layout_marginRight="10dp"
                 android:maxLength="27"
                 android:text="Name"
-                android:textColor="@color/soothing_breeze"
+                android:textColor="@color/dracula_orchid"
                 android:textStyle="bold"
                 app:autoSizeTextType="none" />
             <TextView
@@ -38,16 +37,14 @@
                 android:text="Type"
                 android:layout_marginRight="10dp"
                 android:layout_column="1"
-                style="@style/MyText"
-                android:textColor="@color/soothing_breeze"/>
+                android:textColor="@color/dracula_orchid"/>
             <TextView
                 android:id="@+id/genderTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Gender"
                 android:layout_column="2"
-                style="@style/MyText"
-                android:textColor="@color/soothing_breeze"/>
+                android:textColor="@color/dracula_orchid"/>
         </TableRow>
 
     </TableLayout>

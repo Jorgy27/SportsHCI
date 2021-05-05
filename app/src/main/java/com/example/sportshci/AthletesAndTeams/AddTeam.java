@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sportshci.MainActivity;
 import com.example.sportshci.R;
@@ -30,7 +31,7 @@ public class AddTeam extends Fragment implements AdapterView.OnItemSelectedListe
     Button submit;
     View view;
     List<Sport> sportList;
-    int sportID;
+    Integer sportID;
 
     public void AddTeam()
     {
@@ -69,6 +70,12 @@ public class AddTeam extends Fragment implements AdapterView.OnItemSelectedListe
         submit = view.findViewById(R.id.teamSubmitBtn);
 
         submit.setOnClickListener((v)->{
+            if(sportID==null)
+            {
+                Toast.makeText(getContext(),"List of sports is empty",Toast.LENGTH_LONG).show();
+                return;
+            }
+
             String var_name = nameTxt.getText().toString();
             String var_stadium = stadiumTxt.getText().toString();
             String var_town = townTxt.getText().toString();
@@ -129,7 +136,7 @@ public class AddTeam extends Fragment implements AdapterView.OnItemSelectedListe
     public void onNothingSelected(AdapterView<?> parent) {
         if(parent.getId()==R.id.teamSportNameSpinner)
         {
-            sportID=sportList.get(0).getCode();
+            sportID = null;
         }
     }
 }

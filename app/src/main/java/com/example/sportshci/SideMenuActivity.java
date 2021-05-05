@@ -162,6 +162,8 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onBackPressed() {
+        HandleMatchesBackButton();
+
         onDelete=false;
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -171,6 +173,15 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             RefreshActivity();
         }
         super.onBackPressed();
+    }
+
+    private void HandleMatchesBackButton()
+    {
+        if(action=="Matches")
+        {
+            action="Sports";
+            RefreshActivity();
+        }
     }
 
     @Override
@@ -303,7 +314,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 collection = "S_Matches";
                 break;
         }
-
     }
 
     @Override

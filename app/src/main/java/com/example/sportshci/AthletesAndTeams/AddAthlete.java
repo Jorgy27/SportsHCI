@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,7 +32,7 @@ public class AddAthlete extends Fragment implements AdapterView.OnItemSelectedLi
     Button submit;
     View view;
     List<Sport> sportList;
-    int sportID;
+    Integer sportID;
 
     public void AddAthlete()
     {
@@ -70,6 +71,12 @@ public class AddAthlete extends Fragment implements AdapterView.OnItemSelectedLi
         submit = view.findViewById(R.id.athleteSubmitBtn);
 
         submit.setOnClickListener((v)->{
+            if(sportID==null)
+            {
+                Toast.makeText(getContext(),"List of sports is empty",Toast.LENGTH_LONG).show();
+                return;
+            }
+
             String var_name = nameTxt.getText().toString();
             String var_surname = surnameTxt.getText().toString();
             String var_town = townTxt.getText().toString();
@@ -132,7 +139,7 @@ public class AddAthlete extends Fragment implements AdapterView.OnItemSelectedLi
     public void onNothingSelected(AdapterView<?> parent) {
         if(parent.getId()==R.id.athleteSportNameSpinner)
         {
-            sportID=sportList.get(0).getCode();
+            sportID=null;
         }
     }
 }

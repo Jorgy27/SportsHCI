@@ -72,6 +72,7 @@ public class AddSport extends Fragment implements AdapterView.OnItemSelectedList
                     transaction.replace(R.id.fragment_container, databaseLogFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
+
                      */
 
                     //Kanei restart to activity gia na ksanapaei sti lista me ta athlimata

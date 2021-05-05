@@ -12,8 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:stretchColumns="1">
-        <TableRow>
+        android:stretchColumns="1"
+        android:background="@color/soothing_breeze">
+
+        <TableRow
+            android:background="@android:color/transparent">
             <TextView
                 android:id="@+id/team1"
                 android:text="Team 1"
@@ -30,7 +33,8 @@
                 android:layout_column="1"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@android:color/transparent">
             <TextView
                 android:id="@+id/team2"
                 android:text="Team 2"
@@ -47,7 +51,8 @@
                 android:layout_column="1"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@android:color/transparent">
             <TextView
                 android:id="@+id/score"
                 android:text="Score"
@@ -64,7 +69,8 @@
                 android:layout_column="1"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@android:color/transparent">
             <TextView
                 android:id="@+id/date"
                 android:text="Date"
@@ -81,7 +87,8 @@
                 android:layout_column="1"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@android:color/transparent">
             <TextView
                 android:id="@+id/city"
                 android:text="City"
@@ -98,7 +105,8 @@
                 android:layout_column="1"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@android:color/transparent">
             <TextView
                 android:id="@+id/country"
                 android:text="Country"

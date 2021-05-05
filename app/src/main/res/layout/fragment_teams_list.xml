@@ -13,9 +13,10 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:stretchColumns="1"
-        android:background="@color/Biscay">
+        android:background="@color/soothing_breeze">
 
-        <TableRow>
+        <TableRow
+            android:background="@color/Biscay">
             <TextView
                 android:id="@+id/teamName"
                 android:text="Team"
@@ -33,7 +34,8 @@
                 android:textColor="@color/soothing_breeze"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@color/Biscay">
             <TextView
                 android:id="@+id/teamField"
                 android:text="Stadium"
@@ -50,7 +52,8 @@
                 android:layout_column="1"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@color/Biscay">
             <TextView
                 android:id="@+id/teamCity"
                 android:text="City"
@@ -67,7 +70,8 @@
                 android:layout_column="1"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@color/Biscay">
             <TextView
                 android:id="@+id/teamCountry"
                 android:text="Country"
@@ -84,7 +88,8 @@
                 android:layout_column="1"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@color/Biscay">
             <TextView
                 android:id="@+id/teamSport"
                 android:text="Sport"
@@ -101,7 +106,8 @@
                 android:layout_column="1"
                 android:gravity="center_horizontal"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:background="@color/Biscay">
             <TextView
                 android:id="@+id/teamBirthday"
                 android:text="Established:"

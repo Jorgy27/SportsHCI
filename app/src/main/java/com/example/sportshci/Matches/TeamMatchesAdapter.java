@@ -52,6 +52,7 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
         String country = teamMatchesList.get(position).getCountry();
         Date date = teamMatchesList.get(position).getDate();
 
+
         holder.team1Txt.setText(team1);
         holder.team2Txt.setText(team2);
         holder.scoreTxt.setText(score);
