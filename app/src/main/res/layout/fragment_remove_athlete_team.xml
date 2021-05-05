@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:stretchColumns="5"
+        android:stretchColumns="0"
         android:background="@color/dark_red">
 
         <TableRow
@@ -22,13 +22,14 @@
             <TextView
                 style="@style/MyText"
                 android:textColor="@color/soothing_breeze"
-                android:id="@+id/removeTeamTxt"
+                android:id="@+id/removeTeamOrAthleteTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
-                android:layout_column="0"/>
+                android:layout_column="0"
+                android:layout_gravity="center"/>
         </TableRow>
     </TableLayout>
 </androidx.cardview.widget.CardView>

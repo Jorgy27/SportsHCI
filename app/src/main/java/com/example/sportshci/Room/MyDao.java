@@ -36,10 +36,16 @@ public interface MyDao {
     @Query("SELECT * FROM ATHLETES")
     public List<Athlete> getAthletes();
 
+    @Delete
+    public void deleteAthlete(Athlete athlete);
+
     //---------------Team methods---------------
     @Insert
     public void addTeam(Team team);
 
     @Query("SELECT * FROM Teams")
     public List<Team> getTeams();
+
+    @Delete
+    public void deleteTeam(Team team);
 }

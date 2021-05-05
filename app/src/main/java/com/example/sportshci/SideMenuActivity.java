@@ -20,6 +20,8 @@ import android.view.View;
 
 import com.example.sportshci.AthletesAndTeams.AthleteTableAdapter;
 import com.example.sportshci.AthletesAndTeams.AthletesAndTeams;
+import com.example.sportshci.AthletesAndTeams.RemoveAthletesAdapter;
+import com.example.sportshci.AthletesAndTeams.RemoveTeamAdapter;
 import com.example.sportshci.AthletesAndTeams.TeamTableAdapter;
 import com.example.sportshci.FirestoreDB.TeamMatches;
 import com.example.sportshci.Matches.*;
@@ -41,7 +43,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener {
+public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener {
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     public static FirebaseFirestore db;
@@ -225,13 +227,14 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private void SetAthleteAndTeamRemove() {
         onDelete = true;
         HideSideMenu();
-        /*
-        RemoveAthletesAdapter adapterAthletes = new RemoveSportsAdapter(sportList, this);
-        RemoveTeamsAdapter adapterTeams = new RemoveSportsAdapter(sportList, this);
+
+        RemoveAthletesAdapter adapterAthletes = new RemoveAthletesAdapter(athleteList, this);
+        RemoveTeamAdapter adapterTeams = new RemoveTeamAdapter(teamList, this);
         ConcatAdapter adapter = new ConcatAdapter(adapterAthletes, adapterTeams);
+
         setRecyclerLayout();
         recyclerView.setAdapter(adapter);
-         */
+
     }
     private void handleMatches(String sport, String gender, String document, String collection) {
 
@@ -263,7 +266,8 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                                 TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList);
                                 setRecyclerLayout();
                                 recyclerView.setAdapter(adapter);
-                            }else {
+                            }else if(document.equals("SingleMatch"))
+                            {
                                 //change to SingleMatchesAdapter
                                 TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList);
                                 setRecyclerLayout();
@@ -303,11 +307,26 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     }
 
     @Override
+    public void onRemoveTeamListener(int position) {
+        Team team = teamList.get(position);
+        myDatabase.myDao().deleteTeam(team);
+        RefreshActivity();
+    }
+
+    @Override
+    public void onRemoveAthleteClick(int position){
+        Athlete athlete = athleteList.get(position);
+        myDatabase.myDao().deleteAthlete(athlete);
+        RefreshActivity();
+    }
+
+    @Override
     public void onRemoveSportClick(int position) {
         Sport sport = sportList.get(position);
         myDatabase.myDao().deleteSport(sport);
         RefreshActivity();
     }
+
 
     public void RefreshActivity()
     {
@@ -327,4 +346,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     {
 
     }
+
+
 }
