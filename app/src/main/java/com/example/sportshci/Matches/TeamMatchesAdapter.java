@@ -26,7 +26,7 @@ import java.util.Map;
 public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.MyViewHolder>{
 
     private List<TeamMatches> teamMatchesList;
-    private String sport;
+
     public TeamMatchesAdapter(List<TeamMatches> teamMatchesList) {
         this.teamMatchesList = teamMatchesList;
     }
