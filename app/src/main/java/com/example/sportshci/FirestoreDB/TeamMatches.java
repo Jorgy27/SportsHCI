@@ -9,6 +9,7 @@ public class TeamMatches {
     private String country;
     private String sport;
     private Date date;
+    private String gender;
     private Map<String,String> teams;
     private Map<String,Integer> scores;
 
@@ -70,5 +71,13 @@ public class TeamMatches {
 
     public void setScores(Map<String, Integer> scores) {
         this.scores = scores;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
