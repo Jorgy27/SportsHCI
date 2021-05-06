@@ -1,6 +1,14 @@
 package com.example.sportshci;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,11 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-
 import com.example.sportshci.AthletesAndTeams.AthleteTableAdapter;
 import com.example.sportshci.AthletesAndTeams.AthletesAndTeams;
 import com.example.sportshci.AthletesAndTeams.RemoveAthletesAdapter;
@@ -25,13 +28,15 @@ import com.example.sportshci.AthletesAndTeams.RemoveTeamAdapter;
 import com.example.sportshci.AthletesAndTeams.TeamTableAdapter;
 import com.example.sportshci.FirestoreDB.SingleMatches;
 import com.example.sportshci.FirestoreDB.TeamMatches;
-import com.example.sportshci.Matches.*;
+import com.example.sportshci.Matches.AddMatch;
+import com.example.sportshci.Matches.SingleMatchesAdapter;
+import com.example.sportshci.Matches.TeamMatchesAdapter;
 import com.example.sportshci.Room.Athlete;
-import com.example.sportshci.Room.Team;
-import com.example.sportshci.Sports.*;
 import com.example.sportshci.Room.MyDatabase;
 import com.example.sportshci.Room.Sport;
+import com.example.sportshci.Room.Team;
 import com.example.sportshci.Sports.AddSport;
+import com.example.sportshci.Sports.RemoveSportsAdapter;
 import com.example.sportshci.Sports.SportsRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,9 +61,11 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private List<TeamMatches> teamMatchesList;
     private List<SingleMatches> singleMatchesList;
     private RecyclerView recyclerView;
-    public static String action;
+    public static String currentAction;
+    public String action;
     private Toolbar toolbar;
     static boolean onDelete = false;
+    private static Integer matchPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,44 +84,20 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
         recyclerView = findViewById(R.id.recyclerList);
 
-        switch (action) {
+        if(currentAction==null)
+        {
+            currentAction=action;
+        }
+
+        switch (currentAction) {
             case "Sports":
-                sportList = new ArrayList<>();
-                setSportsInfo();
-
-                if(onDelete)
-                {
-                    SetSportRemove();
-                    break;
-                }
-                onDelete=false;
-
-                SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList, this);
-                setRecyclerLayout();
-                recyclerView.setAdapter(adapter);
+                OnCreateSports();
                 break;
             case "Athletes":
-                athleteList = new ArrayList<>();
-                teamList = new ArrayList<>();
-                setAthletesInfo();
-                setTeamsInfo();
-
-                if(onDelete)
-                {
-                    SetAthleteAndTeamRemove();
-                    break;
-                }
-                onDelete=false;
-
-                AthleteTableAdapter athleteAdapter = new AthleteTableAdapter(athleteList,this);
-                TeamTableAdapter teamAdapter = new TeamTableAdapter(teamList,this);
-                setRecyclerLayout();
-                //recyclerView.setAdapter(athleteAdapter);
-                //recyclerView.swapAdapter(teamAdapter,false);
-
-                ConcatAdapter concatAdapter = new ConcatAdapter(athleteAdapter,teamAdapter);
-                recyclerView.setAdapter(concatAdapter);
-
+                OnCreateAthletesAndSports();
+                break;
+            case "Matches":
+                OnCreateMatches();
                 break;
         }
     }
@@ -142,6 +125,60 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         toolbar.setVisibility(View.INVISIBLE);
     }
 
+    private void OnCreateSports()
+    {
+        currentAction="Sports";
+        sportList = new ArrayList<>();
+        setSportsInfo();
+
+        if(onDelete)
+        {
+            SetSportRemove();
+            return;
+        }
+        onDelete=false;
+
+        SportsRecyclerAdapter adapter = new SportsRecyclerAdapter(sportList, this);
+        setRecyclerLayout();
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void OnCreateAthletesAndSports()
+    {
+        currentAction="Athletes";
+        athleteList = new ArrayList<>();
+        teamList = new ArrayList<>();
+        setAthletesInfo();
+        setTeamsInfo();
+
+        if(onDelete)
+        {
+            SetAthleteAndTeamRemove();
+            return;
+        }
+        onDelete=false;
+
+        AthleteTableAdapter athleteAdapter = new AthleteTableAdapter(athleteList,this);
+        TeamTableAdapter teamAdapter = new TeamTableAdapter(teamList,this);
+        setRecyclerLayout();
+
+        ConcatAdapter concatAdapter = new ConcatAdapter(athleteAdapter,teamAdapter);
+        recyclerView.setAdapter(concatAdapter);
+    }
+
+    private void OnCreateMatches()
+    {
+        currentAction="Matches";
+        if(onDelete)
+        {
+            //SetMatchesRemove();
+            return;
+        }
+        sportList = new ArrayList<>();
+        setSportsInfo();
+        ViewMatchesFragmentCreate();
+    }
+
 
     private  void setRecyclerLayout(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -164,32 +201,44 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onBackPressed() {
-        HandleMatchesBackButton();
-
         onDelete=false;
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
-        if(toolbar.getVisibility()==View.INVISIBLE) // otan einai INVISIBLE to toolbar den einai sto arxiko fragment tou activity ara otan patisei back pigenei ekei
+
+        if(currentAction=="Matches")
         {
-            RefreshActivity();
+            HandleMatchesBackButton();
         }
+        else
+        {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+
+            if(toolbar.getVisibility()==View.INVISIBLE) // otan einai INVISIBLE to toolbar den einai sto arxiko fragment tou activity ara otan patisei back pigenei ekei
+            {
+                RefreshActivity();
+            }
+            else
+            {
+                currentAction=null;
+            }
+        }
+
         super.onBackPressed();
     }
 
-    private void HandleMatchesBackButton()
-    {
-        if(action=="Matches")
+    private void HandleMatchesBackButton() {
+        if (toolbar.getVisibility() == View.VISIBLE) // otan einai INVISIBLE to toolbar einai sto add matches
         {
-            action="Sports";
-            RefreshActivity();
+            matchPosition = null;
+            currentAction = "Sports";
         }
+        RefreshActivity();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         HideSideMenu();
-        switch (action)
+        switch (currentAction)
         {
             case "Sports":
                 switch (item.getItemId()) {
@@ -216,6 +265,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             case"Matches":
                 switch (item.getItemId()) {
                     case R.id.nav_add:
+                        onDelete=false;
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMatch()).commit();
                         break;
                     case R.id.nav_remove:
@@ -310,11 +360,16 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onSportClick(int position) {
-        String sport = sportList.get(position).getName();
-        String typeOfSport = sportList.get(position).getType();
-        String genderOfSport = sportList.get(position).getGender();
+        matchPosition = position;
+        ViewMatchesFragmentCreate();
+    }
+    private void ViewMatchesFragmentCreate()
+    {
+        currentAction = "Matches";
+        String sport = sportList.get(matchPosition).getName();
+        String typeOfSport = sportList.get(matchPosition).getType();
+        String genderOfSport = sportList.get(matchPosition).getGender();
         String document,collection;
-        action = "Matches"; //TODO na to ksanakanw Sports
 
         //fragmentManager.beginTransaction().replace(R.id.fragment_container, new MatchesViewFragment()).commit();
         switch (typeOfSport){
