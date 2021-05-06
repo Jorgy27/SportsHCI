@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="3dp"
+    android:clickable="true">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:stretchColumns="0"
+        android:background="@color/dark_red">
+
+        <TableRow
+            android:background="@android:color/transparent"
+            android:gravity="center_horizontal">
+            <TextView
+                style="@style/MyText"
+                android:textColor="@color/soothing_breeze"
+                android:id="@+id/removeTeamMatchTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_column="0"
+                android:layout_gravity="center"/>
+        </TableRow>
+    </TableLayout>
+</androidx.cardview.widget.CardView>

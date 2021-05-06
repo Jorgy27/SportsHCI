@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.sportshci.AthletesAndTeams.AthleteTableAdapter;
 import com.example.sportshci.AthletesAndTeams.AthletesAndTeams;
@@ -34,6 +35,8 @@ import com.example.sportshci.Room.Sport;
 import com.example.sportshci.Sports.AddSport;
 import com.example.sportshci.Sports.SportsRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
@@ -44,7 +47,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener {
+public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener{
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     public static FirebaseFirestore db;
@@ -220,13 +223,54 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddTeamMatch()).commit();
                         break;
                     case R.id.nav_remove:
-
+                        setMatchRemove();
                         break;
                 }
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setMatchRemove() {
+        onDelete = true;
+        HideSideMenu();
+        String typeOfClickedSport = clickedSport.getType();
+        if(typeOfClickedSport.equals("Team"))
+        {
+            db.collection("Matches")
+                    .document("TeamMatch")
+                    .collection("T_Matches")
+                    .whereEqualTo("sport",clickedSport.getName())
+                    .whereEqualTo("gender",clickedSport.getGender())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task)
+                        {
+                            if(task.isSuccessful())
+                            {
+                                TeamMatches teamMatch = new TeamMatches();
+                                teamMatchesList = new ArrayList<TeamMatches>();
+
+                                for(QueryDocumentSnapshot documentSnapshot : task.getResult())
+                                {
+                                    teamMatch = documentSnapshot.toObject(TeamMatches.class);
+                                    teamMatchesList.add(teamMatch);
+                                }
+
+                            }
+                        }
+                    });
+            RemoveTeamMatchAdapter removeTeamMatchAdapter = new RemoveTeamMatchAdapter(teamMatchesList,this);
+            setRecyclerLayout();
+            recyclerView.setAdapter(removeTeamMatchAdapter);
+
+        }else if (typeOfClickedSport.equals("Single")){
+
+        }
+
     }
 
     private void SetSportRemove()
@@ -321,6 +365,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         clickedSport.setCode(0);
         clickedSport.setName(sport);
         clickedSport.setGender(genderOfSport);
+        clickedSport.setType(typeOfSport);
 
         String document,collection;
         action = "Matches"; //TODO na to ksanakanw Sports
@@ -382,4 +427,30 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     }
 
 
+    @Override
+    public void onRemoveTeamMatchListener(int position) {
+        TeamMatches teamMatch = teamMatchesList.get(position);
+
+        db.collection("Matches")
+                .document("TeamMatch")
+                .collection("T_Matches")
+                .document(""+teamMatch.getCode())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        //TODO Steile ton pisw sta team matches
+
+                        Log.d("FIREBASE","Successfully deleted document");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("ERROR","Error deleting document",e);
+                    }
+                });
+
+    }
 }
