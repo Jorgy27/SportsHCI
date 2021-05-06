@@ -36,6 +36,9 @@ public interface MyDao {
     @Query("SELECT * FROM ATHLETES")
     public List<Athlete> getAthletes();
 
+    @Query("SELECT * FROM ATHLETES WHERE ATHLETES.SPORT = :sportCode")
+    public List<Athlete> getAthletesBySport(int sportCode);
+
     @Delete
     public void deleteAthlete(Athlete athlete);
 
@@ -45,6 +48,9 @@ public interface MyDao {
 
     @Query("SELECT * FROM Teams")
     public List<Team> getTeams();
+
+    @Query("SELECT * FROM TEAMS WHERE TEAMS.SPORT = :sportCode")
+    public List<Team> getTeamsBySport(int sportCode);
 
     @Delete
     public void deleteTeam(Team team);

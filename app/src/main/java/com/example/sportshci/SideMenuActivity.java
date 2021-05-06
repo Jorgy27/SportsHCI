@@ -57,6 +57,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private List<SingleMatches> singleMatchesList;
     private RecyclerView recyclerView;
     public static String action;
+    public static Sport clickedSport;
     private Toolbar toolbar;
     static boolean onDelete = false;
 
@@ -216,7 +217,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             case"Matches":
                 switch (item.getItemId()) {
                     case R.id.nav_add:
-                        fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddMatch()).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddTeamMatch()).commit();
                         break;
                     case R.id.nav_remove:
 
@@ -308,11 +309,19 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 });
     }
 
+
     @Override
     public void onSportClick(int position) {
         String sport = sportList.get(position).getName();
         String typeOfSport = sportList.get(position).getType();
         String genderOfSport = sportList.get(position).getGender();
+
+        //Save the information about the clicked sport on a static array so i can use it when the user adds a match on the sport he clicked
+        clickedSport = new Sport();
+        clickedSport.setCode(0);
+        clickedSport.setName(sport);
+        clickedSport.setGender(genderOfSport);
+
         String document,collection;
         action = "Matches"; //TODO na to ksanakanw Sports
 
