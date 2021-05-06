@@ -141,8 +141,10 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
                         }
 
                     });
+            //TODO na to baleis sto telos apo to submit button tou AddSingleMatch
+            SideMenuActivity activity = (SideMenuActivity) getActivity();
+            activity.ViewMatchesFragmentCreate();
         }));
-
 
     }
 

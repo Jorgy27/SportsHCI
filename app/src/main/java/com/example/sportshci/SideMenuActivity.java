@@ -75,6 +75,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private Toolbar toolbar;
     static boolean onDelete = false;
     private static Integer matchPosition;
+    private static ConcatAdapter removeMatchAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,13 +181,14 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private void OnCreateMatches()
     {
         currentAction="Matches";
-        if(onDelete)
-        {
-            //SetMatchesRemove();
-            return;
-        }
         sportList = new ArrayList<>();
         setSportsInfo();
+        if(onDelete)
+        {
+            createMatchesRemove();
+            return;
+        }
+        onDelete=false;
         ViewMatchesFragmentCreate();
     }
 
@@ -237,7 +239,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         super.onBackPressed();
     }
 
-    private void HandleMatchesBackButton() {
+    public void HandleMatchesBackButton() {
         if (toolbar.getVisibility() == View.VISIBLE) // otan einai INVISIBLE to toolbar einai sto add matches
         {
             matchPosition = null;
@@ -321,13 +323,20 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                         }
                     });
             RemoveTeamMatchAdapter removeTeamMatchAdapter = new RemoveTeamMatchAdapter(teamMatchesList,this);
-            setRecyclerLayout();
-            recyclerView.setAdapter(removeTeamMatchAdapter);
+            removeMatchAdapter = new ConcatAdapter(removeTeamMatchAdapter);
+            createMatchesRemove();
 
         }else if (typeOfClickedSport.equals("Single")){
 
         }
 
+    }
+
+    //TODO na allaksw onoma
+    private void createMatchesRemove()
+    {
+        setRecyclerLayout();
+        recyclerView.setAdapter(removeMatchAdapter);
     }
 
     private void SetSportRemove()
@@ -416,7 +425,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         matchPosition = position;
         ViewMatchesFragmentCreate();
     }
-    private void ViewMatchesFragmentCreate()
+    public void ViewMatchesFragmentCreate()
     {
         currentAction = "Matches";
         String sport = sportList.get(matchPosition).getName();
@@ -501,8 +510,9 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
                         //TODO Steile ton pisw sta team matches
+                        onDelete=false;
+                        RefreshActivity();
 
                         Log.d("FIREBASE","Successfully deleted document");
                     }
