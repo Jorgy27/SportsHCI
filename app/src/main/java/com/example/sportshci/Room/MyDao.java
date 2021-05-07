@@ -14,17 +14,15 @@ public interface MyDao {
     @Insert
     public void addSport(Sport sport);
 
-    @Query("SELECT * FROM SPORTS")
+    @Query("SELECT * FROM SPORTS ORDER BY SPORTS.type DESC")
     public List<Sport> getSports();
 
     @Query("SELECT SPORTS.CODE FROM SPORTS WHERE SPORTS.NAME = :sportName")
     public int getSportIdByName(String sportName);
 
-    @Query("SELECT SPORTS.NAME FROM SPORTS WHERE SPORTS.CODE = :sportCode")
+    @Query("SELECT SPORTS.NAME FROM SPORTS WHERE SPORTS.CODE = :sportCode ")
     public String getSportNameById(int sportCode);
 
-    @Query("SELECT COUNT(*) FROM SPORTS")
-    public int countSports();
 
     @Delete
     public  void deleteSport(Sport sport);
@@ -42,11 +40,14 @@ public interface MyDao {
     @Delete
     public void deleteAthlete(Athlete athlete);
 
+    @Query("SELECT COUNT(*) FROM ATHLETES WHERE ATHLETES.SPORT = :sportCode")
+    public int countAthletesOfSport(int sportCode);
+
     //---------------Team methods---------------
     @Insert
     public void addTeam(Team team);
 
-    @Query("SELECT * FROM Teams")
+    @Query("SELECT * FROM Teams GROUP BY TEAMS.name")
     public List<Team> getTeams();
 
     @Query("SELECT * FROM TEAMS WHERE TEAMS.SPORT = :sportCode")

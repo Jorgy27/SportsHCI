@@ -50,11 +50,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener{
@@ -383,7 +386,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                                 {
 
                                     teamMatch = documentSnapshot.toObject(TeamMatches.class);
-                                    //Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
                                     teamMatchesList.add(teamMatch);
                                 }
 
@@ -400,8 +402,9 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                                 {
 
                                     singleMatch = documentSnapshot.toObject(SingleMatches.class);
-                                    //Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
                                     singleMatchesList.add(singleMatch);
+
+                                    Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
                                 }
 
                                 //change to SingleMatchesAdapter
@@ -488,13 +491,86 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     @Override
     public void onAthleteClick(int position)
     {
+        Athlete athlete = athleteList.get(position);
+        int sportID = athlete.getSport();
+        String fullName = athlete.getFirstName()+" "+athlete.getLastName();
+        String sport = myDatabase.myDao().getSportNameById(sportID);
 
+        getMatchesOfAthlete(fullName,sport);
+    }
+
+    private void getMatchesOfAthlete(String fullName, String sport) {
+        db.collection("Matches")
+                .document("SingleMatch")
+                .collection("S_Matches")
+                .whereEqualTo("sport",sport)
+                .whereArrayContains("athletes",fullName)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            SingleMatches singleMatch = new SingleMatches();
+                            singleMatchesList = new ArrayList<SingleMatches>();
+
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult())
+                            {
+                                singleMatch = documentSnapshot.toObject(SingleMatches.class);
+                                singleMatchesList.add(singleMatch);
+                                Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
+                            }
+                            //change to SingleMatchesAdapter
+                            SingleMatchesAdapter adapter = new SingleMatchesAdapter(singleMatchesList);
+                            setRecyclerLayout();
+                            recyclerView.setAdapter(adapter);
+                        }else {
+                            Log.d("ERROR","Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     @Override
     public void onTeamClick(int position)
     {
+        Team team = teamList.get(position);
+        int sportId = team.getSport();
+        String name = team.getName();
+        String sport = myDatabase.myDao().getSportNameById(sportId);
 
+        getMatchesOfTeam(name,sport);
+    }
+
+    private void getMatchesOfTeam(String name, String sport) {
+        db.collection("Matches")
+                .document("TeamMatch")
+                .collection("T_Matches")
+                .whereEqualTo("sport",sport)
+                .whereArrayContains("teams",name)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful())
+                        {
+                            TeamMatches teamMatch = new TeamMatches();
+                            teamMatchesList = new ArrayList<TeamMatches>();
+
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult())
+                            {
+                                teamMatch = documentSnapshot.toObject(TeamMatches.class);
+                                teamMatchesList.add(teamMatch);
+                                Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
+                            }
+                            TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList);
+                            setRecyclerLayout();
+                            recyclerView.setAdapter(adapter);
+                        }else {
+                            Log.d("ERROR","Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
 

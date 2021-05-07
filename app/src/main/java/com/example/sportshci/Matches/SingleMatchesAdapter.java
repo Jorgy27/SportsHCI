@@ -40,14 +40,14 @@ public class SingleMatchesAdapter  extends RecyclerView.Adapter<SingleMatchesAda
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Map<String,String> athletes = singleMatchesList.get(position).getAthletes();
-        Map<String,String> scores = singleMatchesList.get(position).getScores();
+        List<String> athletes = singleMatchesList.get(position).getAthletes();
+        List<String> scores = singleMatchesList.get(position).getScores();
 
         int count = athletes.size();
         String allAthletesWithScores = "";
-        for(int i=1;i<count+1;i++){
-            String key = "athlete"+ String.valueOf(i);
-            allAthletesWithScores += athletes.get(key)+" : "+scores.get(key)+"\n";
+
+        for(int i=0;i<count;i++){
+            allAthletesWithScores += athletes.get(i)+" : "+scores.get(i)+"\n";
         }
         String city = singleMatchesList.get(position).getCity();
         String country = singleMatchesList.get(position).getCountry();

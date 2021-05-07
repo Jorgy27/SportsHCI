@@ -36,14 +36,14 @@ public class RemoveTeamMatchAdapter extends RecyclerView.Adapter<RemoveTeamMatch
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Map<String,String> teams = teamMatchesList.get(position).getTeams();
-        Map<String,Integer> scores = teamMatchesList.get(position).getScores();
+        List<String> teams = teamMatchesList.get(position).getTeams();
+        List<Integer> scores = teamMatchesList.get(position).getScores();
         Date date = teamMatchesList.get(position).getDate();
         String city = teamMatchesList.get(position).getCity();
         String country = teamMatchesList.get(position).getCountry();
 
-        String data = ""+teams.get("team1")+" - "+teams.get("team2")+"\n"
-                    +scores.get("team1")+" - "+ scores.get("team2")+"\n"
+        String data = ""+teams.get(0)+" - "+teams.get(1)+"\n"
+                    +scores.get(0)+" - "+ scores.get(1)+"\n"
                     +date.toString()+"\n"
                     +city+"\n"
                     +country+"\n";

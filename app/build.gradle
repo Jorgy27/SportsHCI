@@ -38,6 +38,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'com.google.firebase:firebase-firestore:22.1.2'
 
+
     // Room Dependencies
     def room_version = '2.3.0'
     implementation "androidx.room:room-runtime:$room_version"

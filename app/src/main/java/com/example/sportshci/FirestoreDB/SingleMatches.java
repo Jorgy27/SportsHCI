@@ -2,6 +2,7 @@ package com.example.sportshci.FirestoreDB;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SingleMatches {
@@ -11,8 +12,8 @@ public class SingleMatches {
     private Date date;
     private String sport;
     private String gender;
-    private Map<String,String> athletes;
-    private Map<String,String> scores;
+    private List<String> athletes;
+    private List<String> scores;
 
 
     public SingleMatches(){};
@@ -58,19 +59,19 @@ public class SingleMatches {
         this.sport = sport;
     }
 
-    public Map<String, String> getAthletes() {
+    public List<String> getAthletes() {
         return athletes;
     }
 
-    public void setAthletes(Map<String, String> athletes) {
+    public void setAthletes(List<String> athletes) {
         this.athletes = athletes;
     }
 
-    public Map<String, String> getScores() {
+    public List<String> getScores() {
         return scores;
     }
 
-    public void setScores(Map<String, String> scores) {
+    public void setScores(List<String> scores) {
         this.scores = scores;
     }
 

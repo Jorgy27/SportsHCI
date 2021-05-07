@@ -42,12 +42,12 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Map<String,String> teams = teamMatchesList.get(position).getTeams();
-        Map<String,Integer> scores = teamMatchesList.get(position).getScores();
+        List<String> teams = teamMatchesList.get(position).getTeams();
+        List<Integer> scores = teamMatchesList.get(position).getScores();
 
-        String team1 = teams.get("team1");
-        String team2 = teams.get("team2");
-        String score = (""+scores.get("team1")+" - "+scores.get("team2")+"").toString();
+        String team1 = teams.get(0);
+        String team2 = teams.get(1);
+        String score = (""+scores.get(0)+" - "+scores.get(1)+"");
         String city = teamMatchesList.get(position).getCity();
         String country = teamMatchesList.get(position).getCountry();
         Date date = teamMatchesList.get(position).getDate();

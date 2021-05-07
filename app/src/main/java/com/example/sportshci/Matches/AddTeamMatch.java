@@ -33,6 +33,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -103,13 +104,14 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
                     ,timePicker.getMinute());
             Date var_dateTime = calendar.getTime();
 
-            Map<String,String> var_teams = new HashMap<String,String>();
-            Map<String,Integer> var_scores = new HashMap<String,Integer>();
+            List<String> var_teams = new ArrayList<String>();
+            List<Integer> var_scores = new ArrayList<Integer>();
 
-            var_teams.put("team1",team1Name);
-            var_teams.put("team2",team2Name);
-            var_scores.put("team1",var_score1);
-            var_scores.put("team2",var_score2);
+
+            var_teams.add(team1Name);
+            var_teams.add(team2Name);
+            var_scores.add(var_score1);
+            var_scores.add(var_score2);
 
             SideMenuActivity.db
                     .collection("Matches")

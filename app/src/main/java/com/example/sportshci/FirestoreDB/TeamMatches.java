@@ -1,8 +1,12 @@
 package com.example.sportshci.FirestoreDB;
 
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+@IgnoreExtraProperties
 public class TeamMatches {
     private int code;
     private String city;
@@ -10,8 +14,8 @@ public class TeamMatches {
     private String sport;
     private Date date;
     private String gender;
-    private Map<String,String> teams;
-    private Map<String,Integer> scores;
+    private List<String> teams;
+    private List<Integer> scores;
 
 
 
@@ -57,19 +61,19 @@ public class TeamMatches {
         this.date = date;
     }
 
-    public Map<String, String> getTeams() {
+    public List<String> getTeams() {
         return teams;
     }
 
-    public void setTeams(Map<String, String> teams) {
+    public void setTeams(List<String> teams) {
         this.teams = teams;
     }
 
-    public Map<String, Integer> getScores() {
+    public List<Integer> getScores() {
         return scores;
     }
 
-    public void setScores(Map<String, Integer> scores) {
+    public void setScores(List<Integer> scores) {
         this.scores = scores;
     }
 
