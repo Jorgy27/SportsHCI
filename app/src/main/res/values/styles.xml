@@ -1,7 +1,9 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:background">@color/dracula_orchid</item>
+        <item name="android:background">@color/white</item>
+        <item name="colorPrimaryDark">@color/dracula_orchid</item>
+        <item name="colorPrimary">@color/soothing_breeze</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="android:textViewStyle">@style/MyText</item>
     </style>
@@ -12,6 +14,7 @@
 
     <style name="MyText" parent="@android:style/TextAppearance">
         <item name="android:background">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@color/soothing_breeze</item>
     </style>
 
 

@@ -1,7 +1,9 @@
 package com.example.sportshci;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,6 +12,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -25,6 +28,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.sportshci.AthletesAndTeams.AthleteTableAdapter;
@@ -79,6 +83,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     static boolean onDelete = false;
     private static Integer matchPosition;
     private static ConcatAdapter removeMatchAdapter;
+    private String document;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,7 +287,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 switch (item.getItemId()) {
                     case R.id.nav_add:
                         onDelete=false;
-                        fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddTeamMatch()).commit();
+                        addMatchFragment();
                         break;
                     case R.id.nav_remove:
                         setMatchRemove();
@@ -292,6 +297,42 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void addMatchFragment()
+    {
+        if(document.equals("TeamMatch"))
+        {
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddTeamMatch()).commit();
+        }else
+        {
+            final int[] athletesSize = {0};
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Insert Number of Athletes");
+
+            final EditText input = new EditText(this);
+
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    athletesSize[0] = Integer.parseInt(input.getText().toString());
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSingleMatch(athletesSize[0])).commit();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    RefreshActivity();
+                }
+            });
+
+            builder.show();
+        }
+
     }
 
     private void setMatchRemove() {
@@ -442,7 +483,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         clickedSport.setGender(genderOfSport);
         clickedSport.setType(typeOfSport);
 
-        String document,collection;
+        String collection;
 
         //fragmentManager.beginTransaction().replace(R.id.fragment_container, new MatchesViewFragment()).commit();
         switch (typeOfSport){

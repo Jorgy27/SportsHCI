@@ -14,6 +14,8 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            android:background="@color/black_overlay"
+            app:titleTextColor="@color/black"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -41,8 +43,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:itemBackground="@android:color/black"
-        app:itemTextColor="@color/soothing_breeze"
+        app:itemTextColor="@color/dracula_orchid"
         app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

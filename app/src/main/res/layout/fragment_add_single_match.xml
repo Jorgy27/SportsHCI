@@ -39,47 +39,17 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/insertTeamMatchTeam1Spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown" />
+            <FrameLayout
+                android:id="@+id/fragmentContainerAthletes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <EditText
-                android:id="@+id/insertTeamMatchScore1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="16dp"
-                android:ems="10"
-                android:hint="Score of First Team"
-                android:inputType="number" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerListAthletes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/insertTeamMatchTeam2Spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown" />
-
-            <EditText
-                android:id="@+id/insertTeamMatchScore2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="16dp"
-                android:ems="10"
-                android:hint="Score of Second Team"
-                android:inputType="number" />
+            </FrameLayout>
 
             <EditText
                 android:id="@+id/insertTeamMatchCity"
