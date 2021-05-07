@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +54,9 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
     List<Team> teamList;
     String team1Name,team2Name;
 
+    //TODO na mpoun sto AddSingleMatch
+    SideMenuActivity activity;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,10 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
         score2Txt = view.findViewById(R.id.insertTeamMatchScore2);
         datePicker = (DatePicker) view.findViewById(R.id.insertTeamMatchDate_picker);
         timePicker = (TimePicker) view.findViewById(R.id.insertTeamMatchTime_picker);
+
+        //TODO kai auto
+        activity  = (SideMenuActivity) getActivity();
+        activity.HideSideMenu();
 
         CreateTeamsDropDownSpinner();
         InstantiateSubmitButton();
@@ -140,12 +149,12 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
                             teamMatch.setScores(var_scores);
 
                             insertTeamMatch(code,teamMatch);
+
+                            //TODO kai auto
+                            activity.RefreshActivity();
                         }
 
                     });
-            //TODO na to baleis sto telos apo to submit button tou AddSingleMatch
-            SideMenuActivity activity = (SideMenuActivity) getActivity();
-            activity.ViewMatchesFragmentCreate();
         }));
 
     }

@@ -33,6 +33,7 @@ public class AddAthlete extends Fragment implements AdapterView.OnItemSelectedLi
     View view;
     List<Sport> sportList;
     Integer sportID;
+    SideMenuActivity activity;
 
     public void AddAthlete()
     {
@@ -59,8 +60,10 @@ public class AddAthlete extends Fragment implements AdapterView.OnItemSelectedLi
         //sportTxt = view.findViewById(R.id.athleteSportIDTxt);
         birthdayTxt = view.findViewById(R.id.athleteBirthTxt);
 
-        CreateSportsDropDownSpinner(); //gemizei to dropdown gia ta athlimata apo tin basi
+        activity  = (SideMenuActivity) getActivity();
+        activity.HideSideMenu();
 
+        CreateSportsDropDownSpinner(); //gemizei to dropdown gia ta athlimata apo tin basi
         InstantiateSubmitButton();
 
         return view;
@@ -97,7 +100,6 @@ public class AddAthlete extends Fragment implements AdapterView.OnItemSelectedLi
 
             MainActivity.myDatabase.myDao().addAthlete(athlete);
 
-            SideMenuActivity activity =(SideMenuActivity) getActivity();
             activity.RefreshActivity();
 
             /*

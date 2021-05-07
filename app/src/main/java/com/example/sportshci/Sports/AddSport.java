@@ -28,6 +28,7 @@ public class AddSport extends Fragment implements AdapterView.OnItemSelectedList
     EditText sportNameTxt, sportTypeTxt, sportGenderTxt;
     Button button;
     View view;
+    SideMenuActivity activity;
 
     String genderText ,typeText;
 
@@ -42,6 +43,10 @@ public class AddSport extends Fragment implements AdapterView.OnItemSelectedList
         view = inflater.inflate(R.layout.fragment_test_database, container, false);
 
         sportNameTxt = view.findViewById(R.id.sportNameTxt);
+
+        activity  = (SideMenuActivity) getActivity();
+        activity.HideSideMenu();
+
         CreateGenderDropDownSpinner(); //gemizei to dropdown gia ta genders
         CreateTypeDropDownSpinner(); //gemizei to dropdown gia ta types
         InstantiateSubmitButton();//kanei litourgiko to submit button
@@ -76,7 +81,6 @@ public class AddSport extends Fragment implements AdapterView.OnItemSelectedList
                      */
 
                     //Kanei restart to activity gia na ksanapaei sti lista me ta athlimata
-                    SideMenuActivity activity =(SideMenuActivity) getActivity();
                     activity.RefreshActivity();
 
                 }

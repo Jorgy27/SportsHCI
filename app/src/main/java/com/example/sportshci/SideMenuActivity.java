@@ -132,7 +132,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         toolbar.setVisibility(View.VISIBLE);
     }
 
-    private void HideSideMenu()
+    public void HideSideMenu()
     {
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         toolbar.setVisibility(View.INVISIBLE);
@@ -219,16 +219,16 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     public void onBackPressed() {
         onDelete=false;
 
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
         if(currentAction=="Matches")
         {
             HandleMatchesBackButton();
         }
         else
         {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            }
-
             if(toolbar.getVisibility()==View.INVISIBLE) // otan einai INVISIBLE to toolbar den einai sto arxiko fragment tou activity ara otan patisei back pigenei ekei
             {
                 RefreshActivity();
@@ -296,7 +296,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
 
     private void setMatchRemove() {
         onDelete = true;
-        HideSideMenu();
         String typeOfClickedSport = clickedSport.getType();
         if(typeOfClickedSport.equals("Team"))
         {
@@ -338,6 +337,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     //TODO na allaksw onoma
     private void createMatchesRemove()
     {
+        HideSideMenu();
         setRecyclerLayout();
         recyclerView.setAdapter(removeMatchAdapter);
     }
