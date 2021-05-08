@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/singleMatchNameSpinner"
+            android:id="@+id/insertSingleMatchNameSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -25,7 +25,7 @@
             android:spinnerMode="dropdown" />
 
         <EditText
-            android:id="@+id/singleMatchScore"
+            android:id="@+id/insertSingleMatchScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"

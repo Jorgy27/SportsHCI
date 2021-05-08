@@ -45,14 +45,14 @@
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerListAthletes"
+                    android:id="@+id/recyclerListInsertAthletes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
             </FrameLayout>
 
             <EditText
-                android:id="@+id/insertTeamMatchCity"
+                android:id="@+id/insertSingleMatchCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -63,7 +63,7 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/insertTeamMatchCountry"
+                android:id="@+id/insertSingleMatchCountry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -74,7 +74,7 @@
                 android:inputType="textPersonName" />
 
             <DatePicker
-                android:id="@+id/insertTeamMatchDate_picker"
+                android:id="@+id/insertSingleMatchDate_picker"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="4"
@@ -82,14 +82,14 @@
                 android:spinnersShown="false" />
 
             <TimePicker
-                android:id="@+id/insertTeamMatchTime_picker"
+                android:id="@+id/insertSingleMatchTime_picker"
                 android:layout_weight="4"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:timePickerMode="spinner"/>
 
             <Button
-                android:id="@+id/insertTeamMatchSubmitBtn"
+                android:id="@+id/insertSingleMatchSubmitBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"

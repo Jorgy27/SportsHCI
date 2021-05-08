@@ -1,6 +1,7 @@
 package com.example.sportshci.Matches;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class AddMatchAthleteAdapter extends RecyclerView.Adapter<AddMatchAthleteAdapter.MyViewHolder> implements AdapterView.OnItemSelectedListener {
 
+    static String[] selectedNamesArray;
     List<Athlete> athleteList;
     int maxAthletes;
 
@@ -31,6 +33,7 @@ public class AddMatchAthleteAdapter extends RecyclerView.Adapter<AddMatchAthlete
     {
         this.maxAthletes=maxAthletes;
         this.athleteList=athleteList;
+        selectedNamesArray = new String[maxAthletes];
     }
 
     @NonNull
@@ -43,16 +46,16 @@ public class AddMatchAthleteAdapter extends RecyclerView.Adapter<AddMatchAthlete
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MyViewHolder holder, int position) {
-        holder.score.setTag("singleMatchScore"+(position+1));
-        holder.athletes.setTag("singleMatchNameSpinner"+(position+1));
+        holder.score.setTag("insertSingleMatchScore"+(position+1));
+        holder.athletes.setTag("insertSingleMatchNameSpinner"+(position+1));
 
         String[] athleteNames = new String[athleteList.size()];
         for(int i=0;i<athleteList.size();i++)
         {
-            athleteNames[i]=athleteList.get(i).getFirstName();
+            athleteNames[i]=athleteList.get(i).getFirstName() +" "+ athleteList.get(i).getLastName();
         }
 
-        CreateGenderDropDownSpinner(holder.athletes,athleteNames,holder.itemView);
+        CreateAthleteDropDownSpinner(holder.athletes,athleteNames,holder.itemView);
     }
 
     @Override
@@ -66,12 +69,12 @@ public class AddMatchAthleteAdapter extends RecyclerView.Adapter<AddMatchAthlete
         private EditText score;
         public MyViewHolder(final View view) {
             super(view);
-            athletes = view.findViewById(R.id.singleMatchNameSpinner);
-            score = view.findViewById(R.id.singleMatchScore);
+            athletes = view.findViewById(R.id.insertSingleMatchNameSpinner);
+            score = view.findViewById(R.id.insertSingleMatchScore);
         }
     }
 
-    void CreateGenderDropDownSpinner(Spinner athleteDropDown,String[] items,View view)
+    void CreateAthleteDropDownSpinner(Spinner athleteDropDown,String[] items,View view)
     {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(),android.R.layout.simple_spinner_item, items);
         //ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, items);
@@ -81,7 +84,12 @@ public class AddMatchAthleteAdapter extends RecyclerView.Adapter<AddMatchAthlete
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //athlete=parent.getItemAtPosition(position).toString();
+        String athlete=parent.getItemAtPosition(position).toString();
+        String tag = parent.getTag().toString();
+        //get the last character of the tag, which is a number that shows which spinner it is
+        int i = Integer.parseInt(String.valueOf(tag.charAt(tag.length()-1)));
+        selectedNamesArray[i-1]=athlete;
+
     }
 
     @Override

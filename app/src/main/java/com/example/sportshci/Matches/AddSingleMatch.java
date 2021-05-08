@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
 import com.example.sportshci.R;
 import com.example.sportshci.Room.Athlete;
@@ -25,6 +28,10 @@ public class AddSingleMatch extends Fragment {
     List<Athlete> athleteList;
     View view;
     int numberOfAthletes;
+    DatePicker datePicker;
+    TimePicker timePicker;
+    Button submit;
+
 
     public AddSingleMatch(int numberOfAthletes) {
         this.numberOfAthletes=numberOfAthletes;
@@ -41,8 +48,12 @@ public class AddSingleMatch extends Fragment {
         view = inflater.inflate(R.layout.fragment_add_single_match, container, false);
 
         setAddAthleteRecycler();
-
+        InstantiateSubmitButton();
         return view;
+    }
+
+    private void InstantiateSubmitButton() {
+        submit = view.findViewById(R.id.insertSingleMatchSubmitBtn);
     }
 
     private void setAddAthleteRecycler()
@@ -53,7 +64,7 @@ public class AddSingleMatch extends Fragment {
         AddMatchAthleteAdapter adapter = new AddMatchAthleteAdapter(athleteList,numberOfAthletes);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerListAthletes);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerListInsertAthletes);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
