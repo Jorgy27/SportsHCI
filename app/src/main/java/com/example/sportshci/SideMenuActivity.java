@@ -84,10 +84,12 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     private static Integer matchPosition;
     private static ConcatAdapter removeMatchAdapter;
     private String document;
+    private int matchAthleteSize = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_side_menu);
 
         fragmentManager = getSupportFragmentManager();
@@ -299,6 +301,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
+
     private void addMatchFragment()
     {
         if(document.equals("TeamMatch"))
@@ -306,7 +309,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddTeamMatch()).commit();
         }else
         {
-            final int[] athletesSize = {0};
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Insert Number of Athletes");
 
@@ -318,8 +320,15 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    athletesSize[0] = Integer.parseInt(input.getText().toString());
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, new AddSingleMatch(athletesSize[0])).commit();
+                    matchAthleteSize = Integer.parseInt(input.getText().toString());
+
+                    Bundle bundle =new Bundle();
+                    bundle.putInt("numberOfAthletes",matchAthleteSize);
+                    //set fragmentclass arguments
+                    AddSingleMatch singleMatchFragment = new AddSingleMatch();
+                    singleMatchFragment.setArguments(bundle);
+
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, singleMatchFragment).commit();
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

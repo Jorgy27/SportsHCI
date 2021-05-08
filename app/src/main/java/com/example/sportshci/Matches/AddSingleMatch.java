@@ -33,19 +33,26 @@ public class AddSingleMatch extends Fragment {
     Button submit;
 
 
-    public AddSingleMatch(int numberOfAthletes) {
-        this.numberOfAthletes=numberOfAthletes;
-    }
+    SideMenuActivity activity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    public AddSingleMatch() {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_single_match, container, false);
+
+        numberOfAthletes=getArguments().getInt("numberOfAthletes");
+
+        activity  = (SideMenuActivity) getActivity();
+        activity.HideSideMenu();
 
         setAddAthleteRecycler();
         InstantiateSubmitButton();
