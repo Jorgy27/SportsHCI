@@ -64,7 +64,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener{
+public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener, SingleMatchesAdapter.OnSingleMatchListener,TeamMatchesAdapter.OnTeamMatchListener{
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     public static FirebaseFirestore db;
@@ -415,6 +415,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     }
     private void handleMatches(String sport, String gender, String document, String collection) {
 
+        ConcatAdapter myAdapter;
         db.collection("Matches")
                 .document(document)
                 .collection(collection)
@@ -439,7 +440,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                                     teamMatchesList.add(teamMatch);
                                 }
 
-                                TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList);
+                                TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList,myTeamListener);
                                 setRecyclerLayout();
                                 recyclerView.setAdapter(adapter);
 
@@ -458,7 +459,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                                 }
 
                                 //change to SingleMatchesAdapter
-                                SingleMatchesAdapter adapter = new SingleMatchesAdapter(singleMatchesList);
+                                SingleMatchesAdapter adapter = new SingleMatchesAdapter(singleMatchesList,mySingleListener);
                                 setRecyclerLayout();
                                 recyclerView.setAdapter(adapter);
                             }
@@ -573,7 +574,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                                 Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
                             }
                             //change to SingleMatchesAdapter
-                            SingleMatchesAdapter adapter = new SingleMatchesAdapter(singleMatchesList);
+                            SingleMatchesAdapter adapter = new SingleMatchesAdapter(singleMatchesList,mySingleListener);
                             setRecyclerLayout();
                             recyclerView.setAdapter(adapter);
                         }else {
@@ -617,7 +618,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                                 teamMatchesList.add(teamMatch);
                                 Log.d("FIREBASE",documentSnapshot.getId()+" => "+documentSnapshot.getData());
                             }
-                            TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList);
+                            TeamMatchesAdapter adapter = new TeamMatchesAdapter(teamMatchesList,myTeamListener);
                             setRecyclerLayout();
                             recyclerView.setAdapter(adapter);
                         }else {
@@ -654,5 +655,17 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                     }
                 });
 
+    }
+
+    TeamMatchesAdapter.OnTeamMatchListener myTeamListener = this;
+    SingleMatchesAdapter.OnSingleMatchListener mySingleListener = this;
+    @Override
+    public void OnSingleMatchClick() {
+        Toast.makeText(this,"Single Match",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void OnTeamMatchClick() {
+        Toast.makeText(this,"Team Match",Toast.LENGTH_LONG).show();
     }
 }

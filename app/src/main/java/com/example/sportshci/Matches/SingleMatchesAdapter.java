@@ -25,17 +25,19 @@ import java.util.Map;
 public class SingleMatchesAdapter  extends RecyclerView.Adapter<SingleMatchesAdapter.MyViewHolder> {
 
     private List<SingleMatches> singleMatchesList;
+    private OnSingleMatchListener onSingleMatchListener;
 
-    public SingleMatchesAdapter(List<SingleMatches> singleMatches)
+    public SingleMatchesAdapter(List<SingleMatches> singleMatches,OnSingleMatchListener onSingleMatchListener)
     {
         this.singleMatchesList = singleMatches;
+        this.onSingleMatchListener = onSingleMatchListener;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_single_matches, parent, false);
-        return new SingleMatchesAdapter.MyViewHolder(itemView);
+        return new SingleMatchesAdapter.MyViewHolder(itemView,onSingleMatchListener);
     }
 
     @Override
@@ -64,10 +66,10 @@ public class SingleMatchesAdapter  extends RecyclerView.Adapter<SingleMatchesAda
         return singleMatchesList.size();
     }
 
-
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView athletesTxt,cityTxt,countryTxt,dateTxt;
-        public MyViewHolder(@NonNull View itemView)
+        private OnSingleMatchListener onSingleMatchListener;
+        public MyViewHolder(@NonNull View itemView,OnSingleMatchListener onSingleMatchListener)
         {
             super(itemView);
             athletesTxt = itemView.findViewById(R.id.athletesWithScore);
@@ -75,6 +77,17 @@ public class SingleMatchesAdapter  extends RecyclerView.Adapter<SingleMatchesAda
             countryTxt = itemView.findViewById(R.id.countryItemS);
             dateTxt = itemView.findViewById(R.id.dateItemS);
 
+            this.onSingleMatchListener=onSingleMatchListener;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onSingleMatchListener.OnSingleMatchClick();
+        }
+    }
+
+    public interface OnSingleMatchListener{
+        void OnSingleMatchClick();
     }
 }
