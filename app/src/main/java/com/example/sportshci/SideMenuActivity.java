@@ -64,7 +64,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener, SingleMatchesAdapter.OnSingleMatchListener,TeamMatchesAdapter.OnTeamMatchListener{
+public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener, SingleMatchesAdapter.OnSingleMatchListener,TeamMatchesAdapter.OnTeamMatchListener, RemoveSingleMatchAdapter.OnSingleMatchListener{
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     public static FirebaseFirestore db;
@@ -415,7 +415,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     }
     private void handleMatches(String sport, String gender, String document, String collection) {
 
-        ConcatAdapter myAdapter;
         db.collection("Matches")
                 .document(document)
                 .collection(collection)
@@ -668,4 +667,28 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     public void OnTeamMatchClick() {
         Toast.makeText(this,"Team Match",Toast.LENGTH_LONG).show();
     }
-}
+
+    @Override
+    public void onRemoveSingleMatchListener(int position) {
+        SingleMatches singleMatch = singleMatchesList.get(position);
+        db.collection("Matches")
+                .document("SingleMatch")
+                .collection("S_Matches")
+                .document(""+singleMatch.getCode())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        onDelete=false;
+                        RefreshActivity();
+
+                        Log.d("FIREBASE","Successfully deleted document");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("ERROR","Error deleting document",e);
+                    }
+                });
+        }
+    }
