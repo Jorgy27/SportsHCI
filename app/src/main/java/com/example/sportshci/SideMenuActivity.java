@@ -64,7 +64,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener{
+public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener, RemoveSingleMatchAdapter.OnSingleMatchListener{
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     public static FirebaseFirestore db;
@@ -379,7 +379,34 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             createMatchesRemove();
 
         }else if (typeOfClickedSport.equals("Single")){
+            db.collection("Matches")
+                    .document("SingleMatch")
+                    .collection("S_Matches")
+                    .whereEqualTo("sport",clickedSport.getName())
+                    .whereEqualTo("gender",clickedSport.getGender())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task)
+                        {
+                            if(task.isSuccessful())
+                            {
+                                SingleMatches singleMatch = new SingleMatches();
+                                singleMatchesList = new ArrayList<SingleMatches>();
 
+                                for(QueryDocumentSnapshot documentSnapshot : task.getResult())
+                                {
+                                    singleMatch = documentSnapshot.toObject(SingleMatches.class);
+                                    singleMatchesList.add(singleMatch);
+                                }
+
+                            }
+                        }
+                    });
+            RemoveSingleMatchAdapter removeSingleMatchAdapter= new RemoveSingleMatchAdapter(singleMatchesList,this);
+            removeMatchAdapter = new ConcatAdapter(removeSingleMatchAdapter);
+            createMatchesRemove();
         }
 
     }
@@ -655,4 +682,28 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 });
 
     }
-}
+
+    @Override
+    public void onRemoveSingleMatchListener(int position) {
+        SingleMatches singleMatch = singleMatchesList.get(position);
+        db.collection("Matches")
+                .document("SingleMatch")
+                .collection("S_Matches")
+                .document(""+singleMatch.getCode())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        onDelete=false;
+                        RefreshActivity();
+
+                        Log.d("FIREBASE","Successfully deleted document");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("ERROR","Error deleting document",e);
+                    }
+                });
+        }
+    }
