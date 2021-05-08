@@ -147,10 +147,8 @@ public class AddSingleMatch extends Fragment {
                             singleMatch.setCity(var_city);
                             singleMatch.setSport(var_sport);
 
-
                             insertSingleMatch(code,singleMatch);
 
-                            //TODO kai auto
                             activity.RefreshActivity();
                         }
 

@@ -378,10 +378,32 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             removeMatchAdapter = new ConcatAdapter(removeTeamMatchAdapter);
             createMatchesRemove();
 
-        }else if (typeOfClickedSport.equals("Single")){
+        }else if (typeOfClickedSport.equals("Single")) {
+            db.collection("Matches")
+                    .document("SingleMatch")
+                    .collection("S_Matches")
+                    .whereEqualTo("sport", clickedSport.getName())
+                    .whereEqualTo("gender", clickedSport.getGender())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                SingleMatches singleMatch = new SingleMatches();
+                                singleMatchesList = new ArrayList<SingleMatches>();
 
+                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                    singleMatch = documentSnapshot.toObject(SingleMatches.class);
+                                    singleMatchesList.add(singleMatch);
+                                }
+
+                            }
+                        }
+                    });
+            RemoveSingleMatchAdapter removeSingleMatchAdapter = new RemoveSingleMatchAdapter(singleMatchesList, this);
+            removeMatchAdapter = new ConcatAdapter(removeSingleMatchAdapter);
+            createMatchesRemove();
         }
-
     }
 
     //TODO na allaksw onoma

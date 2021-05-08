@@ -54,7 +54,6 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
     List<Team> teamList;
     String team1Name,team2Name;
 
-    //TODO na mpoun sto AddSingleMatch
     SideMenuActivity activity;
 
     @Override
@@ -76,7 +75,6 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
         datePicker = (DatePicker) view.findViewById(R.id.insertTeamMatchDate_picker);
         timePicker = (TimePicker) view.findViewById(R.id.insertTeamMatchTime_picker);
 
-        //TODO kai auto
         activity  = (SideMenuActivity) getActivity();
         activity.HideSideMenu();
 
@@ -156,7 +154,6 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
 
                             insertTeamMatch(code,teamMatch);
 
-                            //TODO kai auto
                             activity.RefreshActivity();
                         }
 
