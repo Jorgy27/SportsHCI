@@ -134,9 +134,15 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots)
                         {
 
-                            List<TeamMatches> team = new ArrayList<>();
-                            team = queryDocumentSnapshots.toObjects(TeamMatches.class);
-                            int code = team.get(0).getCode()+1;
+                            int code;
+
+                            if(queryDocumentSnapshots.isEmpty()){
+                                code=0;
+                            }else {
+                                List<TeamMatches> team = new ArrayList<>();
+                                team = queryDocumentSnapshots.toObjects(TeamMatches.class);
+                                code = team.get(0).getCode() + 1;
+                            }
 
                             TeamMatches teamMatch = new TeamMatches();
                             teamMatch.setCode(code);

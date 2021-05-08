@@ -27,6 +27,7 @@
 
             <TextView
                 style="@style/MyText"
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -45,14 +46,14 @@
                 android:layout_marginTop="16dp">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerListAthletes"
+                    android:id="@+id/recyclerListInsertAthletes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
             </FrameLayout>
 
             <EditText
-                android:id="@+id/insertAthleteMatchCity"
+                android:id="@+id/insertSingleMatchCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -63,7 +64,7 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/insertAthleteMatchCountry"
+                android:id="@+id/insertSingleMatchCountry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -74,7 +75,7 @@
                 android:inputType="textPersonName" />
 
             <DatePicker
-                android:id="@+id/insertAthleteMatchDate_picker"
+                android:id="@+id/insertSingleMatchDate_picker"
                 android:layout_weight="4"
                 android:calendarViewShown="true"
                 android:layout_marginTop="16dp"
@@ -82,10 +83,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="1dp"
-                android:spinnersShown="false" />
+                android:spinnersShown="false"  />
 
             <TimePicker
-                android:id="@+id/insertAthleteMatchTime_picker"
+                android:id="@+id/insertSingleMatchTime_picker"
                 android:layout_weight="4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,7 +96,7 @@
                 android:timePickerMode="spinner"/>
 
             <Button
-                android:id="@+id/insertAthleteMatchSubmitBtn"
+                android:id="@+id/insertSingleMatchSubmitBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
