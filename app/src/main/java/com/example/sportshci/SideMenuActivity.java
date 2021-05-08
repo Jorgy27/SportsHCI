@@ -541,6 +541,8 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     @Override
     public void onAthleteClick(int position)
     {
+        HideSideMenu();
+
         Athlete athlete = athleteList.get(position);
         int sportID = athlete.getSport();
         String fullName = athlete.getFirstName()+" "+athlete.getLastName();
@@ -584,6 +586,8 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     @Override
     public void onTeamClick(int position)
     {
+        HideSideMenu();
+
         Team team = teamList.get(position);
         int sportId = team.getSport();
         String name = team.getName();
