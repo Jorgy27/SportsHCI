@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddMatchAthleteAdapter extends RecyclerView.Adapter<AddMatchAthleteAdapter.MyViewHolder> implements AdapterView.OnItemSelectedListener {
-
+    static EditText[] scoreTxt;
+    int i=0;
     static String[] selectedNamesArray;
     List<Athlete> athleteList;
     int maxAthletes;
@@ -34,6 +35,7 @@ public class AddMatchAthleteAdapter extends RecyclerView.Adapter<AddMatchAthlete
         this.maxAthletes=maxAthletes;
         this.athleteList=athleteList;
         selectedNamesArray = new String[maxAthletes];
+        scoreTxt = new EditText[maxAthletes];
     }
 
     @NonNull
@@ -65,12 +67,14 @@ public class AddMatchAthleteAdapter extends RecyclerView.Adapter<AddMatchAthlete
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        private Spinner athletes;
         private EditText score;
+        private Spinner athletes;
         public MyViewHolder(final View view) {
             super(view);
             athletes = view.findViewById(R.id.insertSingleMatchNameSpinner);
             score = view.findViewById(R.id.insertSingleMatchScore);
+            scoreTxt[i]=score;
+            i++;
         }
     }
 
@@ -80,6 +84,7 @@ public class AddMatchAthleteAdapter extends RecyclerView.Adapter<AddMatchAthlete
         //ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, items);
         athleteDropDown.setAdapter(adapter);
         athleteDropDown.setOnItemSelectedListener(this);
+
     }
 
     @Override
