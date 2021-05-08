@@ -87,12 +87,12 @@ public class TeamMatchesAdapter extends RecyclerView.Adapter<TeamMatchesAdapter.
 
         @Override
         public void onClick(View v) {
-            onTeamMatchListener.OnTeamMatchClick();
+            onTeamMatchListener.OnTeamMatchClick(countryTxt.getText().toString());
         }
     }
 
     public interface OnTeamMatchListener{
-        void OnTeamMatchClick();
+        void OnTeamMatchClick(String country);
     }
 
 }

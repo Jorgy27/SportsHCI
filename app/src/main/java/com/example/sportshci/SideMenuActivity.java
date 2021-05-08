@@ -2,6 +2,7 @@ package com.example.sportshci;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.AttributeSet;
@@ -681,13 +682,20 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     TeamMatchesAdapter.OnTeamMatchListener myTeamListener = this;
     SingleMatchesAdapter.OnSingleMatchListener mySingleListener = this;
     @Override
-    public void OnSingleMatchClick() {
-        Toast.makeText(this,"Single Match",Toast.LENGTH_LONG).show();
+    public void OnSingleMatchClick(String country) {
+        StartMapActivity(country);
     }
 
     @Override
-    public void OnTeamMatchClick() {
-        Toast.makeText(this,"Team Match",Toast.LENGTH_LONG).show();
+    public void OnTeamMatchClick(String country) {
+        StartMapActivity(country);
+    }
+
+    private void StartMapActivity(String country)
+    {
+        Intent intent = new Intent(this,MapsActivity.class);
+        intent.putExtra("country",country);
+        startActivity(intent);
     }
 
     @Override

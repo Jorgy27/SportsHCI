@@ -83,11 +83,11 @@ public class SingleMatchesAdapter  extends RecyclerView.Adapter<SingleMatchesAda
 
         @Override
         public void onClick(View v) {
-            onSingleMatchListener.OnSingleMatchClick();
+            onSingleMatchListener.OnSingleMatchClick(countryTxt.getText().toString());
         }
     }
 
     public interface OnSingleMatchListener{
-        void OnSingleMatchClick();
+        void OnSingleMatchClick(String countryTxt);
     }
 }
