@@ -1,8 +1,12 @@
 package com.example.sportshci;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.AttributeSet;
@@ -65,7 +69,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener, SingleMatchesAdapter.OnSingleMatchListener,TeamMatchesAdapter.OnTeamMatchListener, RemoveSingleMatchAdapter.OnSingleMatchListener{
+public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SportsRecyclerAdapter.OnSportListener, RemoveSportsAdapter.OnSportListener, AthleteTableAdapter.OnAthleteListener, TeamTableAdapter.OnTeamListener, RemoveAthletesAdapter.OnAthleteListener, RemoveTeamAdapter.OnTeamListener, RemoveTeamMatchAdapter.OnTeamMatchListener, SingleMatchesAdapter.OnSingleMatchListener,TeamMatchesAdapter.OnTeamMatchListener, RemoveSingleMatchAdapter.OnSingleMatchListener
+{
     public static FragmentManager fragmentManager;
     public static MyDatabase myDatabase;
     public static FirebaseFirestore db;
@@ -121,6 +126,8 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 OnCreateMatches();
                 break;
         }
+
+        //createNotificationChannel();
     }
 
     private void initialiseSideMenu() {
@@ -704,21 +711,22 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         db.collection("Matches")
                 .document("SingleMatch")
                 .collection("S_Matches")
-                .document(""+singleMatch.getCode())
+                .document("" + singleMatch.getCode())
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        onDelete=false;
+                        onDelete = false;
                         RefreshActivity();
 
-                        Log.d("FIREBASE","Successfully deleted document");
+                        Log.d("FIREBASE", "Successfully deleted document");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("ERROR","Error deleting document",e);
-                    }
-                });
-        }
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("ERROR", "Error deleting document", e);
+            }
+        });
     }
+
+}

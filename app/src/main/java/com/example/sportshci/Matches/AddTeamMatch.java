@@ -1,5 +1,11 @@
 package com.example.sportshci.Matches;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -59,6 +65,7 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -80,6 +87,7 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
 
         CreateTeamsDropDownSpinner();
         InstantiateSubmitButton();
+        //createNotificationChannel();
 
         return view;
     }
@@ -104,9 +112,9 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
                 var_score2 = Integer.parseInt(var_score2Txt);
             }
 
-            Calendar calendar = new GregorianCalendar(datePicker.getMonth()
+            Calendar calendar = new GregorianCalendar(datePicker.getYear()
+                    ,datePicker.getMonth()
                     ,datePicker.getDayOfMonth()
-                    ,datePicker.getYear()
                     ,timePicker.getHour()
                     ,timePicker.getMinute());
             Date var_dateTime = calendar.getTime();
@@ -158,6 +166,17 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
                         }
 
                     });
+            Intent intent = new Intent(getContext(),ReminderBroadcast.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
+
+            AlarmManager alarmManager =(AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+            long timeAtButtonClick = System.currentTimeMillis();
+
+            long tenSec = 1000 * 10;
+
+            //alarmManager.set(AlarmManager.RTC_WAKEUP,timeAtButtonClick+tenSec,pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, var_dateTime.getTime(),pendingIntent);
         }));
 
     }
@@ -225,6 +244,20 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
         }else if(parent.getId()==R.id.insertTeamMatchTeam2Spinner)
         {
             team2Name = null;
+        }
+    }
+
+    private void createNotificationChannel()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            CharSequence name ="Name";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyChannel",name,importance);
+            channel.setDescription("test");
+
+            NotificationManager notificationManager= getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }

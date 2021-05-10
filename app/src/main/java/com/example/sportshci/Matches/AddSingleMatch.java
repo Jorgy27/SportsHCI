@@ -1,5 +1,11 @@
 package com.example.sportshci.Matches;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -57,6 +63,7 @@ public class AddSingleMatch extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
     }
 
 
@@ -79,7 +86,7 @@ public class AddSingleMatch extends Fragment {
         activity  = (SideMenuActivity) getActivity();
         activity.HideSideMenu();
 
-
+        //createNotificationChannel();
         InstantiateSubmitButton();
 
         return view;
@@ -108,9 +115,9 @@ public class AddSingleMatch extends Fragment {
                 var_athletes.add(AddMatchAthleteAdapter.selectedNamesArray[i]);
             }
 
-            Calendar calendar = new GregorianCalendar(datePicker.getMonth()
+            Calendar calendar = new GregorianCalendar(datePicker.getYear()
+                    ,datePicker.getMonth()
                     ,datePicker.getDayOfMonth()
-                    ,datePicker.getYear()
                     ,timePicker.getHour()
                     ,timePicker.getMinute());
             Date var_dateTime = calendar.getTime();
@@ -154,6 +161,18 @@ public class AddSingleMatch extends Fragment {
 
                     });
 
+            Intent intent = new Intent(getContext(),ReminderBroadcast.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
+
+            AlarmManager alarmManager =(AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+            long timeAtButtonClick = System.currentTimeMillis();
+
+            long tenSec = 1000 * 10;
+
+            //alarmManager.set(AlarmManager.RTC_WAKEUP,timeAtButtonClick+tenSec,pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, var_dateTime.getTime(),pendingIntent);
+
         }));
     }
 
@@ -191,4 +210,19 @@ public class AddSingleMatch extends Fragment {
 
         recyclerView.setAdapter(adapter);
     }
+
+    private void createNotificationChannel()
+    {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
+        {
+            CharSequence name ="Name";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyChannel",name,importance);
+            channel.setDescription("test");
+
+            NotificationManager notificationManager= getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
 }
