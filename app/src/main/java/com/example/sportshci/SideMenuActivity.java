@@ -329,14 +329,22 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     matchAthleteSize = Integer.parseInt(input.getText().toString());
+                    int athletesOnDB = myDatabase.myDao().countAthletesOfSport(clickedSport.getCode());
 
-                    Bundle bundle =new Bundle();
-                    bundle.putInt("numberOfAthletes",matchAthleteSize);
-                    //set fragmentclass arguments
-                    AddSingleMatch singleMatchFragment = new AddSingleMatch();
-                    singleMatchFragment.setArguments(bundle);
+                    if(matchAthleteSize>athletesOnDB)
+                    {
+                        Toast.makeText(getApplicationContext(),"Size exceeds the number of athletes saved",Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else {
+                        Bundle bundle =new Bundle();
+                        bundle.putInt("numberOfAthletes",matchAthleteSize);
+                        //set fragmentclass arguments
+                        AddSingleMatch singleMatchFragment = new AddSingleMatch();
+                        singleMatchFragment.setArguments(bundle);
 
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, singleMatchFragment).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, singleMatchFragment).commit();
+                    }
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -514,10 +522,11 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         String sport = sportList.get(matchPosition).getName();
         String typeOfSport = sportList.get(matchPosition).getType();
         String genderOfSport = sportList.get(matchPosition).getGender();
+        int code = sportList.get(matchPosition).getCode();
 
         //Save the information about the clicked sport on a static array so i can use it when the user adds a match on the sport he clicked
         clickedSport = new Sport();
-        clickedSport.setCode(0);
+        clickedSport.setCode(code);
         clickedSport.setName(sport);
         clickedSport.setGender(genderOfSport);
         clickedSport.setType(typeOfSport);
