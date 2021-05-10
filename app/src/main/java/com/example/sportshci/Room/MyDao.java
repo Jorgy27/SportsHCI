@@ -40,7 +40,7 @@ public interface MyDao {
     @Delete
     public void deleteAthlete(Athlete athlete);
 
-    @Query("SELECT COUNT(*) FROM ATHLETES WHERE ATHLETES.SPORT = :sportCode")
+    @Query("SELECT COUNT(ATHLETES.code) FROM ATHLETES WHERE ATHLETES.SPORT = :sportCode")
     public int countAthletesOfSport(int sportCode);
 
     //---------------Team methods---------------
