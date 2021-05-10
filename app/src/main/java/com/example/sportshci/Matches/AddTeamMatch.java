@@ -87,7 +87,6 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
 
         CreateTeamsDropDownSpinner();
         InstantiateSubmitButton();
-        //createNotificationChannel();
 
         return view;
     }
@@ -167,15 +166,11 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
 
                     });
             Intent intent = new Intent(getContext(),ReminderBroadcast.class);
+            intent.putExtra("teamString",team1Name+" - "+team2Name);
+            intent.putExtra("dateString",var_dateTime.toString());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
 
             AlarmManager alarmManager =(AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-            long timeAtButtonClick = System.currentTimeMillis();
-
-            long tenSec = 1000 * 10;
-
-            //alarmManager.set(AlarmManager.RTC_WAKEUP,timeAtButtonClick+tenSec,pendingIntent);
             alarmManager.set(AlarmManager.RTC_WAKEUP, var_dateTime.getTime(),pendingIntent);
         }));
 
@@ -256,7 +251,7 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
             NotificationChannel channel = new NotificationChannel("notifyChannel",name,importance);
             channel.setDescription("test");
 
-            NotificationManager notificationManager= getActivity().getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }

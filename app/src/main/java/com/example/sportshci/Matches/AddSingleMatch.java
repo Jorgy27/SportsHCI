@@ -86,7 +86,6 @@ public class AddSingleMatch extends Fragment {
         activity  = (SideMenuActivity) getActivity();
         activity.HideSideMenu();
 
-        //createNotificationChannel();
         InstantiateSubmitButton();
 
         return view;
@@ -162,6 +161,18 @@ public class AddSingleMatch extends Fragment {
                     });
 
             Intent intent = new Intent(getContext(),ReminderBroadcast.class);
+            String athletesString = "";
+            for(int i = 0;i<var_athletes.size(); i++)
+            {
+                athletesString += var_athletes.get(i) + " - ";
+            }
+            //bgazei to teleuteo char apo to string, pou einai mia (-) paula
+            if (athletesString != null && athletesString.length() > 0 && athletesString.charAt(athletesString.length() - 1) == 'x') {
+                athletesString = athletesString.substring(0, athletesString.length() - 1);
+            }
+
+            intent.putExtra("teamString",athletesString);
+            intent.putExtra("dateString",var_dateTime.toString());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
 
             AlarmManager alarmManager =(AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
