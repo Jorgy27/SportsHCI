@@ -48,8 +48,7 @@
                 android:ems="10"
                 android:hint="Team Name"
                 android:inputType="textPersonName"
-                android:textColor="@color/white"
-                android:textColorHint="@color/soothing_breeze"/>
+                android:textColorHint="@color/black_overlay"/>
 
             <EditText
                 android:id="@+id/teamStadiumTxt"
@@ -61,8 +60,7 @@
                 android:ems="10"
                 android:hint="Team Stadium"
                 android:inputType="textPersonName"
-                android:textColor="@color/white"
-                android:textColorHint="@color/soothing_breeze"/>
+                android:textColorHint="@color/black_overlay"/>
 
             <EditText
                 android:id="@+id/teamTownTxt"
@@ -74,8 +72,7 @@
                 android:ems="10"
                 android:hint="Town"
                 android:inputType="textPersonName"
-                android:textColor="@color/white"
-                android:textColorHint="@color/soothing_breeze"/>
+                android:textColorHint="@color/black_overlay"/>
 
             <EditText
                 android:id="@+id/teamCountryTxt"
@@ -87,8 +84,7 @@
                 android:ems="10"
                 android:hint="Country"
                 android:inputType="textPersonName"
-                android:textColor="@color/white"
-                android:textColorHint="@color/soothing_breeze"/>
+                android:textColorHint="@color/black_overlay"/>
 
 
             <androidx.appcompat.widget.AppCompatSpinner
@@ -112,8 +108,7 @@
                 android:ems="10"
                 android:hint="Year of Establishment"
                 android:inputType="textPersonName"
-                android:textColor="@color/white"
-                android:textColorHint="@color/soothing_breeze"/>
+                android:textColorHint="@color/black_overlay"/>
 
             <Button
                 android:id="@+id/teamSubmitBtn"
