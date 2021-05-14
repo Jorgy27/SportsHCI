@@ -249,7 +249,7 @@ public class AddTeamMatch extends  Fragment implements AdapterView.OnItemSelecte
             CharSequence name ="Name";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("notifyChannel",name,importance);
-            channel.setDescription("test");
+            channel.setDescription("");
 
             NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);

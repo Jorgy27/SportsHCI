@@ -1,10 +1,8 @@
 package com.example.sportshci.Sports;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.sportshci.MainActivity;
 import com.example.sportshci.R;
 import com.example.sportshci.Room.*;
 import com.example.sportshci.SideMenuActivity;
-import com.example.sportshci.Sports.Tests.DatabaseLog;
 
 
 public class AddSport extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -40,7 +36,7 @@ public class AddSport extends Fragment implements AdapterView.OnItemSelectedList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_test_database, container, false);
+        view = inflater.inflate(R.layout.fragment_add_sport, container, false);
 
         sportNameTxt = view.findViewById(R.id.sportNameTxt);
 
